@@ -21,7 +21,7 @@ func main() {
 	dv, _ := direction.Get()
 
 	align := binding.NewString()
-	align.Set("start")
+	align.Set("end")
 	av, _ := align.Get()
 
 	justify := binding.NewString()
@@ -54,23 +54,6 @@ func main() {
 		text2,
 	)
 
-	direction.AddListener(binding.NewDataListener(func() {
-		dv, _ = direction.Get()
-		av, _ = align.Get()
-		jv, _ = justify.Get()
-		log.Println(dv, av, jv)
-		flexLayout := flex.NewFlexBox(dv, av, jv, 10, 10)
-		flexBlock = container.New(
-			flexLayout,
-			but,
-			text3,
-			p,
-			text2,
-		)
-		flexBlock.Refresh()
-
-	}))
-
 	buttons := container.NewVBox(
 		widget.NewButton("Direction row", func() { direction.Set("row") }),
 		widget.NewButton("Direction column", func() { direction.Set("column") }),
@@ -83,10 +66,61 @@ func main() {
 		widget.NewButton("Justify around", func() { justify.Set("around") }),
 		widget.NewButton("Justify between", func() { justify.Set("between") }),
 	)
+	direction.AddListener(binding.NewDataListener(func() {
+		dv, _ = direction.Get()
+		av, _ = align.Get()
+		jv, _ = justify.Get()
 
-	mainWindow.SetContent(
-		container.NewBorder(
-			nil, nil, buttons, nil, flexBlock))
+		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
+		flexBlock = container.New(
+			flexLayout,
+			but,
+			text3,
+			p,
+			text2,
+		)
+		mainWindow.SetContent(
+			container.NewBorder(
+				nil, nil, buttons, nil, flexBlock))
+		log.Println(dv, av, jv)
+	}))
+
+	justify.AddListener(binding.NewDataListener(func() {
+		dv, _ = direction.Get()
+		av, _ = align.Get()
+		jv, _ = justify.Get()
+
+		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
+		flexBlock = container.New(
+			flexLayout,
+			but,
+			text3,
+			p,
+			text2,
+		)
+		mainWindow.SetContent(
+			container.NewBorder(
+				nil, nil, buttons, nil, flexBlock))
+		log.Println(dv, av, jv)
+	}))
+	align.AddListener(binding.NewDataListener(func() {
+		dv, _ = direction.Get()
+		av, _ = align.Get()
+		jv, _ = justify.Get()
+
+		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
+		flexBlock = container.New(
+			flexLayout,
+			but,
+			text3,
+			p,
+			text2,
+		)
+		mainWindow.SetContent(
+			container.NewBorder(
+				nil, nil, buttons, nil, flexBlock))
+		log.Println(dv, av, jv)
+	}))
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(800, 400))

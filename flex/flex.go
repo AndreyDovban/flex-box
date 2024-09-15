@@ -1,6 +1,8 @@
 package flex
 
-import "fyne.io/fyne/v2"
+import (
+	"fyne.io/fyne/v2"
+)
 
 type FlexBox struct {
 	Dir     string  // Direction "columns" or "rows"
