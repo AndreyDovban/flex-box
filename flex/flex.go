@@ -10,6 +10,16 @@ type FlexBox struct {
 	Padding float32 // Inner padding
 }
 
+func NewFlexBox(dir, align, justify string, gap, padding float32) *FlexBox {
+	return &FlexBox{
+		Dir:     dir,
+		Align:   align,
+		Justify: justify,
+		Gap:     gap,
+		Padding: padding,
+	}
+}
+
 func (d *FlexBox) MinSize(objects []fyne.CanvasObject) fyne.Size {
 	w, h := float32(0), float32(0)
 	for i, o := range objects {

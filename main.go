@@ -1,17 +1,32 @@
 package main
 
 import (
+	"flexbox/button"
 	"flexbox/flex"
+	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
 )
 
 func main() {
 	app := app.New()
 	mainWindow := app.NewWindow("Learn")
+
+	direction := binding.NewString()
+	direction.Set("row")
+	dv, _ := direction.Get()
+
+	align := binding.NewString()
+	align.Set("start")
+	av, _ := align.Get()
+
+	justify := binding.NewString()
+	justify.Set("start")
+	jv, _ := justify.Get()
 
 	text1 := widget.NewLabel("First Label")
 	text1.Wrapping = fyne.TextWrapBreak
@@ -27,22 +42,51 @@ func main() {
 	p.Wrapping = fyne.TextWrapBreak
 	p.Truncation = fyne.TextTruncateEllipsis
 
-	flex := &flex.FlexBox{
-		Dir:     "column",
-		Align:   "center",
-		Justify: "center",
-		Gap:     10,
-		Padding: 10,
-	}
+	but := button.NewMyListItemWidget("Hello", "Click")
+	but.Resize(fyne.NewSize(120, 40))
 
-	block := container.New(
-		flex,
+	flexLayout := flex.NewFlexBox(dv, av, jv, 10, 10)
+	flexBlock := container.New(
+		flexLayout,
+		but,
 		text3,
 		p,
 		text2,
 	)
 
-	mainWindow.SetContent(block)
+	direction.AddListener(binding.NewDataListener(func() {
+		dv, _ = direction.Get()
+		av, _ = align.Get()
+		jv, _ = justify.Get()
+		log.Println(dv, av, jv)
+		flexLayout := flex.NewFlexBox(dv, av, jv, 10, 10)
+		flexBlock = container.New(
+			flexLayout,
+			but,
+			text3,
+			p,
+			text2,
+		)
+		flexBlock.Refresh()
+
+	}))
+
+	buttons := container.NewVBox(
+		widget.NewButton("Direction row", func() { direction.Set("row") }),
+		widget.NewButton("Direction column", func() { direction.Set("column") }),
+		widget.NewButton("Align start", func() { align.Set("start") }),
+		widget.NewButton("Align center", func() { align.Set("center") }),
+		widget.NewButton("Align end", func() { align.Set("end") }),
+		widget.NewButton("Justify start", func() { justify.Set("start") }),
+		widget.NewButton("Justify center", func() { justify.Set("center") }),
+		widget.NewButton("Justify emd", func() { justify.Set("end") }),
+		widget.NewButton("Justify around", func() { justify.Set("around") }),
+		widget.NewButton("Justify between", func() { justify.Set("between") }),
+	)
+
+	mainWindow.SetContent(
+		container.NewBorder(
+			nil, nil, buttons, nil, flexBlock))
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(800, 400))
