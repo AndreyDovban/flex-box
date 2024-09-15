@@ -81,8 +81,10 @@ func main() {
 		av, _ = align.Get()
 		jv, _ = justify.Get()
 
+		log.Println(flexBlock.Layout)
+
 		ttt.Remove(flexBlock)
-		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
+		flexLayout.Dir = dv
 		flexBlock = container.New(
 			flexLayout,
 			but,
