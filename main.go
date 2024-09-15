@@ -12,6 +12,12 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+/**
+ToDo
+1. Изменить привязанные данные на мапу
+2. Уьрать перерисовку всего окна
+*/
+
 func main() {
 	app := app.New()
 	mainWindow := app.NewWindow("Learn")
@@ -66,11 +72,16 @@ func main() {
 		widget.NewButton("Justify around", func() { justify.Set("around") }),
 		widget.NewButton("Justify between", func() { justify.Set("between") }),
 	)
+
+	ttt := container.NewBorder(
+		nil, nil, buttons, nil, flexBlock)
+
 	direction.AddListener(binding.NewDataListener(func() {
 		dv, _ = direction.Get()
 		av, _ = align.Get()
 		jv, _ = justify.Get()
 
+		ttt.Remove(flexBlock)
 		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
 		flexBlock = container.New(
 			flexLayout,
@@ -79,9 +90,10 @@ func main() {
 			p,
 			text2,
 		)
+		ttt.Add(flexBlock)
+		// ttt.Refresh()
 		mainWindow.SetContent(
-			container.NewBorder(
-				nil, nil, buttons, nil, flexBlock))
+			ttt)
 		log.Println(dv, av, jv)
 	}))
 
@@ -99,10 +111,10 @@ func main() {
 			text2,
 		)
 		mainWindow.SetContent(
-			container.NewBorder(
-				nil, nil, buttons, nil, flexBlock))
+			ttt)
 		log.Println(dv, av, jv)
 	}))
+
 	align.AddListener(binding.NewDataListener(func() {
 		dv, _ = direction.Get()
 		av, _ = align.Get()
@@ -117,8 +129,7 @@ func main() {
 			text2,
 		)
 		mainWindow.SetContent(
-			container.NewBorder(
-				nil, nil, buttons, nil, flexBlock))
+			ttt)
 		log.Println(dv, av, jv)
 	}))
 
