@@ -22,22 +22,18 @@ func main() {
 	app := app.New()
 	mainWindow := app.NewWindow("Learn")
 
-	direction := binding.NewString()
-	direction.Set("row")
-	dv, _ := direction.Get()
+	data := binding.NewString()
 
-	align := binding.NewString()
-	align.Set("end")
-	av, _ := align.Get()
-
-	justify := binding.NewString()
-	justify.Set("start")
-	jv, _ := justify.Get()
+	direction := "row"
+	align := "start"
+	justify := "start"
 
 	text1 := widget.NewLabel("First Label")
 	text1.Wrapping = fyne.TextWrapBreak
 	text2 := widget.NewLabel("Middle Label")
 	text3 := widget.NewLabel("bottomright")
+
+	s := widget.NewLabel("Target")
 
 	p := widget.NewRichText(
 		&widget.TextSegment{
@@ -51,92 +47,56 @@ func main() {
 	but := button.NewMyListItemWidget("Hello", "Click")
 	but.Resize(fyne.NewSize(120, 40))
 
-	flexLayout := flex.NewFlexBox(dv, av, jv, 10, 10)
+	flexLayout := flex.NewFlexBox(direction, align, justify, 10, 10)
 	flexBlock := container.New(
 		flexLayout,
 		but,
 		text3,
 		p,
-		text2,
+		text2, s,
 	)
 
 	buttons := container.NewVBox(
-		widget.NewButton("Direction row", func() { direction.Set("row") }),
-		widget.NewButton("Direction column", func() { direction.Set("column") }),
-		widget.NewButton("Align start", func() { align.Set("start") }),
-		widget.NewButton("Align center", func() { align.Set("center") }),
-		widget.NewButton("Align end", func() { align.Set("end") }),
-		widget.NewButton("Justify start", func() { justify.Set("start") }),
-		widget.NewButton("Justify center", func() { justify.Set("center") }),
-		widget.NewButton("Justify emd", func() { justify.Set("end") }),
-		widget.NewButton("Justify around", func() { justify.Set("around") }),
-		widget.NewButton("Justify between", func() { justify.Set("between") }),
+		widget.NewButton("Direction row", func() { data.Set("row"); direction = "row" }),
+		widget.NewButton("Direction column", func() { data.Set("column"); direction = "column" }),
+		widget.NewButton("Align start", func() { data.Set("start"); align = "start" }),
+		widget.NewButton("Align stretch", func() { data.Set("stretch"); align = "stretch" }),
+		widget.NewButton("Align center", func() { data.Set("center"); align = "center" }),
+		widget.NewButton("Align end", func() { data.Set("end"); align = "end" }),
+		widget.NewButton("Justify start", func() { data.Set("start"); justify = "start" }),
+		widget.NewButton("Justify center", func() { data.Set("center"); justify = "center" }),
+		widget.NewButton("Justify emd", func() { data.Set("end"); justify = "end" }),
+		widget.NewButton("Justify around", func() { data.Set("around"); justify = "around" }),
+		widget.NewButton("Justify between", func() { data.Set("between"); justify = "between" }),
 	)
 
 	ttt := container.NewBorder(
 		nil, nil, buttons, nil, flexBlock)
 
-	direction.AddListener(binding.NewDataListener(func() {
-		dv, _ = direction.Get()
-		av, _ = align.Get()
-		jv, _ = justify.Get()
+	data.AddListener(binding.NewDataListener(func() {
 
 		log.Println(flexBlock.Layout)
 
 		ttt.Remove(flexBlock)
-		flexLayout.Dir = dv
+		flexLayout.Dir = direction
+		flexLayout.Align = align
+		flexLayout.Justify = justify
 		flexBlock = container.New(
 			flexLayout,
 			but,
 			text3,
 			p,
-			text2,
+			text2, s,
 		)
 		ttt.Add(flexBlock)
 		// ttt.Refresh()
 		mainWindow.SetContent(
 			ttt)
-		log.Println(dv, av, jv)
-	}))
-
-	justify.AddListener(binding.NewDataListener(func() {
-		dv, _ = direction.Get()
-		av, _ = align.Get()
-		jv, _ = justify.Get()
-
-		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
-		flexBlock = container.New(
-			flexLayout,
-			but,
-			text3,
-			p,
-			text2,
-		)
-		mainWindow.SetContent(
-			ttt)
-		log.Println(dv, av, jv)
-	}))
-
-	align.AddListener(binding.NewDataListener(func() {
-		dv, _ = direction.Get()
-		av, _ = align.Get()
-		jv, _ = justify.Get()
-
-		flexLayout = flex.NewFlexBox(dv, av, jv, 10, 10)
-		flexBlock = container.New(
-			flexLayout,
-			but,
-			text3,
-			p,
-			text2,
-		)
-		mainWindow.SetContent(
-			ttt)
-		log.Println(dv, av, jv)
+		log.Println(direction, align, justify)
 	}))
 
 	mainWindow.CenterOnScreen()
-	mainWindow.Resize(fyne.NewSize(800, 400))
+	mainWindow.Resize(fyne.NewSize(1000, 600))
 	mainWindow.Show()
 
 	app.Run()
