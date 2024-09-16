@@ -1,21 +1,22 @@
 package main
 
 import (
-	"flexbox/button"
 	"flexbox/flex"
+	"flexbox/mywidgets"
 	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
 )
 
 /**
 ToDo
-1. Изменить привязанные данные на мапу
-2. Уьрать перерисовку всего окна
+1. Цифровой ввод
+2.
 */
 
 func main() {
@@ -24,36 +25,39 @@ func main() {
 
 	data := binding.NewString()
 
-	direction := "row"
-	align := "start"
-	justify := "start"
+	direction := "column"
+	align := "center"
+	justify := "center"
+
+	vid := mywidgets.NewMyWidget("click")
+	vid.Resize(fyne.NewSize(200, 40))
+
+	// vid := widget.NewLabel("click")
+	// vid.Resize(fyne.NewSize(200, 40))
+
+	num := mywidgets.NewNumericalEntry()
+	num.Resize(fyne.NewSize(200, 40))
 
 	text1 := widget.NewLabel("First Label")
 	text1.Wrapping = fyne.TextWrapBreak
 	text2 := widget.NewLabel("Middle Label")
 	text3 := widget.NewLabel("bottomright")
 
-	s := widget.NewLabel("Target")
-
-	p := widget.NewRichText(
+	paragraf := widget.NewRichText(
 		&widget.TextSegment{
 			Text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."})
-
-	p.Resize(fyne.NewSize(160, 100))
-
-	p.Wrapping = fyne.TextWrapBreak
-	p.Truncation = fyne.TextTruncateEllipsis
-
-	but := button.NewMyListItemWidget("Hello", "Click")
-	but.Resize(fyne.NewSize(120, 40))
+	paragraf.Resize(fyne.NewSize(160, 100))
+	paragraf.Wrapping = fyne.TextWrapBreak
+	paragraf.Truncation = fyne.TextTruncateEllipsis
 
 	flexLayout := flex.NewFlexBox(direction, align, justify, 10, 10)
 	flexBlock := container.New(
 		flexLayout,
-		but,
+		num,
+		vid,
 		text3,
-		p,
-		text2, s,
+		paragraf,
+		text2,
 	)
 
 	buttons := container.NewVBox(
@@ -85,6 +89,12 @@ func main() {
 		ttt.Refresh()
 		log.Println(direction, align, justify)
 	}))
+
+	ctrlTab := &desktop.CustomShortcut{KeyName: fyne.KeyTab, Modifier: fyne.KeyModifierControl}
+
+	mainWindow.Canvas().AddShortcut(ctrlTab, func(shortcut fyne.Shortcut) {
+		log.Println("We tapped Ctrl+Tab")
+	})
 
 	mainWindow.SetContent(ttt)
 
