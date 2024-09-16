@@ -60,7 +60,6 @@ func main() {
 		widget.NewButton("Direction row", func() { data.Set("row"); direction = "row" }),
 		widget.NewButton("Direction column", func() { data.Set("column"); direction = "column" }),
 		widget.NewButton("Align start", func() { data.Set("start"); align = "start" }),
-		widget.NewButton("Align stretch", func() { data.Set("stretch"); align = "stretch" }),
 		widget.NewButton("Align center", func() { data.Set("center"); align = "center" }),
 		widget.NewButton("Align end", func() { data.Set("end"); align = "end" }),
 		widget.NewButton("Justify start", func() { data.Set("start"); justify = "start" }),
@@ -81,19 +80,13 @@ func main() {
 		flexLayout.Dir = direction
 		flexLayout.Align = align
 		flexLayout.Justify = justify
-		flexBlock = container.New(
-			flexLayout,
-			but,
-			text3,
-			p,
-			text2, s,
-		)
+
 		ttt.Add(flexBlock)
-		// ttt.Refresh()
-		mainWindow.SetContent(
-			ttt)
+		ttt.Refresh()
 		log.Println(direction, align, justify)
 	}))
+
+	mainWindow.SetContent(ttt)
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))

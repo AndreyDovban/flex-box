@@ -90,9 +90,6 @@ func (d *FlexBox) Layout(objects []fyne.CanvasObject, containerSize fyne.Size) {
 		if d.Dir == "row" {
 
 			switch d.Align {
-			case "stretch":
-				strW := o.Size().Width
-				size = fyne.NewSize(strW, containerSize.Height-d.Padding*2)
 
 			case "center":
 				startDrawH = containerSize.Height/2 - fullHeight/2
