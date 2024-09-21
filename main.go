@@ -3,10 +3,12 @@ package main
 import (
 	"flexbox/flex"
 	"flexbox/mywidgets"
+	"image/color"
 	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/driver/desktop"
@@ -22,6 +24,8 @@ ToDo
 func main() {
 	app := app.New()
 	mainWindow := app.NewWindow("Learn")
+
+	/** Flex block */
 
 	data := binding.NewString()
 
@@ -73,22 +77,24 @@ func main() {
 		widget.NewButton("Justify between", func() { data.Set("between"); justify = "between" }),
 	)
 
-	ttt := container.NewBorder(
+	flexTabContent := container.NewBorder(
 		nil, nil, buttons, nil, flexBlock)
 
 	data.AddListener(binding.NewDataListener(func() {
 
 		log.Println(flexBlock.Layout)
 
-		ttt.Remove(flexBlock)
+		flexTabContent.Remove(flexBlock)
 		flexLayout.Dir = direction
 		flexLayout.Align = align
 		flexLayout.Justify = justify
 
-		ttt.Add(flexBlock)
-		ttt.Refresh()
+		flexTabContent.Add(flexBlock)
+		flexTabContent.Refresh()
 		log.Println(direction, align, justify)
 	}))
+
+	/** Shortcat example */
 
 	ctrlTab := &desktop.CustomShortcut{KeyName: fyne.KeyTab, Modifier: fyne.KeyModifierControl}
 
@@ -96,7 +102,161 @@ func main() {
 		log.Println("We tapped Ctrl+Tab")
 	})
 
-	mainWindow.SetContent(ttt)
+	/** Tree Block */
+
+	// 	let arr = [
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___zlobanov205'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___zlobanov205'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___zlobanov205_exxff7hzhu74irsh'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___lkudryavcev209'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___lkudryavcev209'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___lkudryavcev2_3cabm0o6yrkhh5a'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___vpopov266'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___vpopov266'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___vpopov266_2sendaaixue7ib5q48'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___lbelyaev986'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___lbelyaev986'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___lbelyaev986_qlz6zu0wlwjfxbd2'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___agorshkov203'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___agorshkov203'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___agorshkov203_5gh5pko0gcbb9ko'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___visaev948'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___visaev948'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___visaev948_5vdz1xy39lseo0hv45'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___vdementev422'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___vdementev422'],
+	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___vdementev422_3xzsryytfzs7dm8'],
+	//   ]
+
+	// arr := []string{
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___zlobanov205",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___zlobanov205",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___zlobanov205_exxff7hzhu74irsh",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___lkudryavcev209",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___lkudryavcev209",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___lkudryavcev2_3cabm0o6yrkhh5a",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___vpopov266",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___vpopov266",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___vpopov266_2sendaaixue7ib5q48",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___lbelyaev986",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___lbelyaev986",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___lbelyaev986_qlz6zu0wlwjfxbd2",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___agorshkov203",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___agorshkov203",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___agorshkov203_5gh5pko0gcbb9ko",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___visaev948",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___visaev948",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___visaev948_5vdz1xy39lseo0hv45",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___vdementev422",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___vdementev422",
+	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___vdementev422_3xzsryytfzs7dm8",
+	// }
+
+	treeList := map[string][]string{
+		"":                    {"dc=granulex,dc=test"},
+		"dc=granulex,dc=test": {"cn=accounts"},
+		"cn=accounts":         {"cn=users", "cn=groups", "cn=users_history"},
+		"cn=users":            {"uid=___vdementev422", "uid=___agorshkov203", "uid=___zlobanov205", "uid=___lkudryavcev209", "uid=___vpopov266", "uid=___lbelyaev986"},
+		"cn=groups":           {"cn=___vdementev422", "cn=___visaev948", "cn=___zlobanov205", "cn=___lkudryavcev209", "cn=___vpopov266", "cn=___lbelyaev986", "cn=___agorshkov203"},
+		"cn=users_history":    {"cn=___vdementev422_3xzsryytfzs7dm8", "cn=___visaev948_5vdz1xy39lseo0hv45", "cn=___agorshkov203_5gh5pko0gcbb9ko", "cn=___lbelyaev986_qlz6zu0wlwjfxbd2", "cn=___vpopov266_2sendaaixue7ib5q48", "cn=___lkudryavcev2_3cabm0o6yrkhh5a", "cn=___zlobanov205_exxff7hzhu74irsh"},
+	}
+
+	// ttt := []string{"Jon", "Bob", "Kate", "Frank", "Andrey"}
+
+	tree := &widget.Tree{
+		ChildUIDs: func(uid string) []string {
+			return treeList[uid]
+		},
+		IsBranch: func(uid string) bool {
+			children, ok := treeList[uid]
+
+			return ok && len(children) > 0
+		},
+		CreateNode: func(branch bool) fyne.CanvasObject {
+			return widget.NewLabel("")
+		},
+		UpdateNode: func(uid string, branch bool, obj fyne.CanvasObject) {
+			_, ok := treeList[uid]
+			if !ok {
+				fyne.LogError("Missing tutorial panel: "+uid, nil)
+				obj.(*widget.Label).SetText(uid)
+			}
+			obj.(*widget.Label).SetText(uid)
+		},
+		// OnSelected: func(uid string) {
+		// 	if t, ok := tutorials.Tutorials[uid]; ok {
+		// 		a.Preferences().SetString(preferenceCurrentTutorial, uid)
+		// 		setTutorial(t)
+		// 	}
+		// },
+	}
+	tree.Resize(fyne.NewSize(900, 600))
+
+	treeContent := container.New(
+		flex.NewFlexBox("column", "center", "start", 10, 10), tree,
+	)
+
+	/** List With Data block */
+
+	hr := canvas.NewLine(color.White)
+	hr.Resize(fyne.NewSize(200, 0))
+
+	names := binding.NewStringList()
+	names.Set([]string{"Jon", "Bob", "Kate", "Frank", "Andrey"})
+
+	addElem := widget.NewButton("Add elem", func() {
+		names.Append("New text")
+	})
+
+	// list := widget.NewList(
+	// 	func() int { return len(names) },
+	// 	func() fyne.CanvasObject { return widget.NewLabel("") },
+	// 	func(id widget.ListItemID, co fyne.CanvasObject) {
+	// 		co.(*widget.Label).SetText(names[id])
+	// 	},
+	// )
+
+	list := widget.NewListWithData(
+		names,
+		func() fyne.CanvasObject { return widget.NewLabel("") },
+		func(di binding.DataItem, co fyne.CanvasObject) {
+			txt, _ := di.(binding.String).Get()
+			co.(*widget.Label).SetText(txt)
+		},
+	)
+	list.Resize(fyne.NewSize(200, 400))
+	// list.OnSelected = func(id widget.ListItemID) { log.Println(names[id]) }
+	list.OnSelected = func(id widget.ListItemID) {
+		s, _ := names.GetItem(id)
+		text, _ := s.(binding.String).Get()
+		log.Println(text)
+
+	}
+
+	listContent := container.New(
+		flex.NewFlexBox("column", "center", "start", 10, 10),
+		addElem,
+		hr,
+		list,
+	)
+
+	/** Custom wibget block*/
+
+	customWidgetContent := container.New(
+		flex.NewFlexBox("column", "center", "center", 10, 10),
+		widget.NewButton("click", nil),
+	)
+
+	/** App Tabs block */
+
+	tab := container.NewAppTabs(
+		container.NewTabItem("Other", treeContent),
+		container.NewTabItem("List", listContent),
+		container.NewTabItem("CustomWidget", customWidgetContent),
+		container.NewTabItem("Flex", flexTabContent),
+	)
+
+	mainWindow.SetContent(tab)
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
