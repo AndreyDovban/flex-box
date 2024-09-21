@@ -5,6 +5,7 @@ import (
 	"flexbox/mywidgets"
 	"image/color"
 	"log"
+	"slices"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -15,11 +16,30 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-/**
-ToDo
-1. Цифровой ввод
-2.
-*/
+func buidHashList(objects [][]string) map[string][]string {
+	hash := map[string][]string{}
+
+	for _, arr := range objects {
+		for i := 0; i < len(arr)-1; i++ {
+			_, ok := hash[arr[i]]
+			if ok {
+				children := hash[arr[i]]
+				if !slices.Contains(children, arr[i+1]) {
+					children = append(children, arr[i+1])
+					hash[arr[i]] = children
+				}
+			} else {
+				if i != len(arr)-1 {
+					hash[arr[i]] = []string{}
+				}
+			}
+		}
+	}
+
+	hash[""] = []string{objects[0][0]}
+
+	return hash
+}
 
 func main() {
 	app := app.New()
@@ -104,64 +124,33 @@ func main() {
 
 	/** Tree Block */
 
-	// 	let arr = [
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___zlobanov205'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___zlobanov205'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___zlobanov205_exxff7hzhu74irsh'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___lkudryavcev209'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___lkudryavcev209'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___lkudryavcev2_3cabm0o6yrkhh5a'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___vpopov266'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___vpopov266'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___vpopov266_2sendaaixue7ib5q48'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___lbelyaev986'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___lbelyaev986'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___lbelyaev986_qlz6zu0wlwjfxbd2'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___agorshkov203'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___agorshkov203'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___agorshkov203_5gh5pko0gcbb9ko'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___visaev948'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___visaev948'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___visaev948_5vdz1xy39lseo0hv45'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users', 'uid=___vdementev422'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=groups', 'cn=___vdementev422'],
-	//     ['dc=granulex,dc=test', 'cn=accounts', 'cn=users_history', 'cn=___vdementev422_3xzsryytfzs7dm8'],
-	//   ]
-
-	// arr := []string{
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___zlobanov205",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___zlobanov205",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___zlobanov205_exxff7hzhu74irsh",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___lkudryavcev209",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___lkudryavcev209",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___lkudryavcev2_3cabm0o6yrkhh5a",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___vpopov266",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___vpopov266",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___vpopov266_2sendaaixue7ib5q48",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___lbelyaev986",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___lbelyaev986",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___lbelyaev986_qlz6zu0wlwjfxbd2",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___agorshkov203",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___agorshkov203",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___agorshkov203_5gh5pko0gcbb9ko",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___visaev948",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___visaev948",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___visaev948_5vdz1xy39lseo0hv45",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users,uid=___vdementev422",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=groups,cn=___vdementev422",
-	// 	"dc=granulex,dc=test,cn=accounts,cn=users_history,cn=___vdementev422_3xzsryytfzs7dm8",
-	// }
-
-	treeList := map[string][]string{
-		"":                    {"dc=granulex,dc=test"},
-		"dc=granulex,dc=test": {"cn=accounts"},
-		"cn=accounts":         {"cn=users", "cn=groups", "cn=users_history"},
-		"cn=users":            {"uid=___vdementev422", "uid=___agorshkov203", "uid=___zlobanov205", "uid=___lkudryavcev209", "uid=___vpopov266", "uid=___lbelyaev986"},
-		"cn=groups":           {"cn=___vdementev422", "cn=___visaev948", "cn=___zlobanov205", "cn=___lkudryavcev209", "cn=___vpopov266", "cn=___lbelyaev986", "cn=___agorshkov203"},
-		"cn=users_history":    {"cn=___vdementev422_3xzsryytfzs7dm8", "cn=___visaev948_5vdz1xy39lseo0hv45", "cn=___agorshkov203_5gh5pko0gcbb9ko", "cn=___lbelyaev986_qlz6zu0wlwjfxbd2", "cn=___vpopov266_2sendaaixue7ib5q48", "cn=___lkudryavcev2_3cabm0o6yrkhh5a", "cn=___zlobanov205_exxff7hzhu74irsh"},
+	arr := [][]string{
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___zlobanov205"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___zlobanov205"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___zlobanov205_exxff7hzhu74irsh"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___lkudryavcev209"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___lkudryavcev209"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___lkudryavcev2_3cabm0o6yrkhh5a"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___vpopov266"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___vpopov266"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___vpopov266_2sendaaixue7ib5q48"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___lbelyaev986"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___lbelyaev986"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___lbelyaev986_qlz6zu0wlwjfxbd2"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___agorshkov203"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___agorshkov203"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___agorshkov203_5gh5pko0gcbb9ko"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___visaev948"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___visaev948"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___visaev948_5vdz1xy39lseo0hv45"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users", "uid=___vdementev422"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=groups", "cn=___vdementev422"},
+		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___vdementev422_3xzsryytfzs7dm8"},
 	}
 
-	// ttt := []string{"Jon", "Bob", "Kate", "Frank", "Andrey"}
+	treeList := buidHashList(arr)
+
+	log.Println(treeList)
 
 	tree := &widget.Tree{
 		ChildUIDs: func(uid string) []string {
@@ -178,17 +167,19 @@ func main() {
 		UpdateNode: func(uid string, branch bool, obj fyne.CanvasObject) {
 			_, ok := treeList[uid]
 			if !ok {
-				fyne.LogError("Missing tutorial panel: "+uid, nil)
+				// fyne.LogError("Missing tutorial panel: "+uid, nil)
 				obj.(*widget.Label).SetText(uid)
 			}
 			obj.(*widget.Label).SetText(uid)
 		},
-		// OnSelected: func(uid string) {
-		// 	if t, ok := tutorials.Tutorials[uid]; ok {
-		// 		a.Preferences().SetString(preferenceCurrentTutorial, uid)
-		// 		setTutorial(t)
-		// 	}
-		// },
+		OnSelected: func(uid string) {
+			_, ok := treeList[uid]
+			if ok {
+				log.Println(uid)
+			} else {
+				log.Println(uid)
+			}
+		},
 	}
 	tree.Resize(fyne.NewSize(900, 600))
 
