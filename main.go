@@ -2,10 +2,11 @@ package main
 
 import (
 	"flexbox/flex"
+	"flexbox/mytheme"
 	"flexbox/mywidgets"
+	"flexbox/tree"
 	"image/color"
 	"log"
-	"slices"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -16,30 +17,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func buidHashList(objects [][]string) map[string][]string {
-	hash := map[string][]string{}
-
-	for _, arr := range objects {
-		for i := 0; i < len(arr)-1; i++ {
-			_, ok := hash[arr[i]]
-			if ok {
-				children := hash[arr[i]]
-				if !slices.Contains(children, arr[i+1]) {
-					children = append(children, arr[i+1])
-					hash[arr[i]] = children
-				}
-			} else {
-				if i != len(arr)-1 {
-					hash[arr[i]] = []string{}
-				}
-			}
-		}
-	}
-
-	hash[""] = []string{objects[0][0]}
-
-	return hash
-}
+/** Custom Theme */
 
 func main() {
 	app := app.New()
@@ -101,9 +79,6 @@ func main() {
 		nil, nil, buttons, nil, flexBlock)
 
 	data.AddListener(binding.NewDataListener(func() {
-
-		log.Println(flexBlock.Layout)
-
 		flexTabContent.Remove(flexBlock)
 		flexLayout.Dir = direction
 		flexLayout.Align = align
@@ -111,7 +86,6 @@ func main() {
 
 		flexTabContent.Add(flexBlock)
 		flexTabContent.Refresh()
-		log.Println(direction, align, justify)
 	}))
 
 	/** Shortcat example */
@@ -148,9 +122,7 @@ func main() {
 		{"dc=granulex,dc=test", "cn=accounts", "cn=users_history", "cn=___vdementev422_3xzsryytfzs7dm8"},
 	}
 
-	treeList := buidHashList(arr)
-
-	log.Println(treeList)
+	treeList := tree.BuidHashList(arr)
 
 	tree := &widget.Tree{
 		ChildUIDs: func(uid string) []string {
@@ -182,6 +154,7 @@ func main() {
 		},
 	}
 	tree.Resize(fyne.NewSize(900, 600))
+	tree.HideSeparators = true
 
 	treeContent := container.New(
 		flex.NewFlexBox("column", "center", "start", 10, 10), tree,
@@ -248,6 +221,8 @@ func main() {
 	)
 
 	mainWindow.SetContent(tab)
+
+	app.Settings().SetTheme(&mytheme.MyTheme{})
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
