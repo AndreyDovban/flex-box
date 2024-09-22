@@ -17,8 +17,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-/** Custom Theme */
-
 func main() {
 	app := app.New()
 	mainWindow := app.NewWindow("Learn")
@@ -30,12 +28,6 @@ func main() {
 	direction := "column"
 	align := "center"
 	justify := "center"
-
-	vid := mywidgets.NewMyWidget("click")
-	vid.Resize(fyne.NewSize(200, 40))
-
-	// vid := widget.NewLabel("click")
-	// vid.Resize(fyne.NewSize(200, 40))
 
 	num := mywidgets.NewNumericalEntry()
 	num.Resize(fyne.NewSize(200, 40))
@@ -56,7 +48,6 @@ func main() {
 	flexBlock := container.New(
 		flexLayout,
 		num,
-		vid,
 		text3,
 		paragraf,
 		text2,
@@ -208,7 +199,7 @@ func main() {
 
 	customWidgetContent := container.New(
 		flex.NewFlexBox("column", "center", "center", 10, 10),
-		widget.NewButton("click", nil),
+		mywidgets.NewMyWidget("HELLO WORLD"),
 	)
 
 	/** App Tabs block */
@@ -219,6 +210,7 @@ func main() {
 		container.NewTabItem("CustomWidget", customWidgetContent),
 		container.NewTabItem("Flex", flexTabContent),
 	)
+	tab.SelectIndex(2)
 
 	mainWindow.SetContent(tab)
 
