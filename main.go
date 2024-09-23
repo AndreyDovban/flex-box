@@ -196,16 +196,25 @@ func main() {
 	)
 
 	/** Custom wibget block*/
+	fon := &canvas.Rectangle{
+		StrokeColor: color.Black,
+		StrokeWidth: 1,
+	}
 
-	ttt := widget.NewButton("click", nil)
+	text := mywidgets.NewLabel("Hello world l;sfk;s psfd spf")
+	text.Alignment = fyne.TextAlignCenter
+	text.Truncation = fyne.TextTruncateClip
+	log.Println(text.Size())
 
 	// flexLayout := layout.NewVBoxLayout()
 	customWidgetContent := container.NewBorder(
 		nil, nil, nil, nil,
 		container.New(
 			flex.NewFlexBox("column", "center", "center", 10, 10),
-			ttt,
-		))
+			container.NewStack(
+				fon,
+				text,
+			)))
 
 	/** App Tabs block */
 
