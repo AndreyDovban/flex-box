@@ -197,10 +197,39 @@ func main() {
 
 	/** Custom wibget block*/
 
-	customWidgetContent := container.New(
-		flex.NewFlexBox("column", "center", "center", 10, 10),
-		mywidgets.NewMyWidget("HELLO WORLD"),
+	coms := []string{
+		"getConfigJson",
+		"getAllUsersJson",
+		"getAllGroupsJson",
+		"createUserJson",
+		"createGroupJson",
+		"modifyUsersJson",
+		"createManyGroupsJson",
+		"shaffleUserssJson",
+		"getAllRolesJson",
+		"getAllPriviligesJson",
+		"getAllPermissionsJson",
+	}
+
+	ttt := widget.NewList(
+		func() int { return len(coms) },
+		func() fyne.CanvasObject {
+			l := widget.NewLabel("")
+			return l
+		},
+		func(id widget.ListItemID, co fyne.CanvasObject) {
+			co.(*widget.Label).SetText(coms[id])
+		},
 	)
+	ttt.Resize(fyne.NewSize(200, 500))
+
+	// flexLayout := layout.NewVBoxLayout()
+	customWidgetContent := container.NewBorder(
+		nil, nil, nil, nil,
+		container.New(
+			flex.NewFlexBox("column", "center", "center", 10, 10),
+			ttt,
+		))
 
 	/** App Tabs block */
 

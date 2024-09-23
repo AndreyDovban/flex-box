@@ -55,7 +55,7 @@ func (MyTheme) Size(s fyne.ThemeSizeName) float32 {
 	case theme.SizeNamePadding:
 		return 2
 	case theme.SizeNameInnerPadding:
-		return 4
+		return 1
 	case theme.SizeNameScrollBar:
 		return 8
 	case theme.SizeNameScrollBarSmall:

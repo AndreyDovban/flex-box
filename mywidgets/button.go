@@ -1,46 +1,27 @@
 package mywidgets
 
 import (
-	"image/color"
 	"log"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
 type myWidget struct {
-	widget.Label
+	widget.Button
 }
 
-func NewMyWidget(text string) *myWidget {
+func NewMyWidget() *myWidget {
 	v := &myWidget{}
 	v.ExtendBaseWidget(v)
-	v.Text = text
 	return v
 }
 
 func (m *myWidget) CreateRenderer() fyne.WidgetRenderer {
-	// background := canvas.NewRectangle(color.Transparent)
-	// background.StrokeWidth = 1
-	// background.StrokeColor = color.RGBA{200, 200, 200, 255}
 
-	text := widget.NewLabel(m.Text)
-	// text.Alignment = fyne.TextAlignCenter
+	but := widget.NewButton(m.Text, nil)
 
-	log.Println(text.Size())
-
-	line := canvas.NewLine(color.RGBA{60, 60, 70, 255})
-	line.Position1 = fyne.NewPos(0, 14)
-	line.Position2 = fyne.NewPos(-30, 14)
-
-	c := container.NewWithoutLayout(
-		line,
-		text,
-	)
-
-	return widget.NewSimpleRenderer(c)
+	return widget.NewSimpleRenderer(but)
 }
 
 func (v *myWidget) Tapped(p *fyne.PointEvent) {
