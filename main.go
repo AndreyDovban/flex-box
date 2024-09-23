@@ -197,31 +197,7 @@ func main() {
 
 	/** Custom wibget block*/
 
-	coms := []string{
-		"getConfigJson",
-		"getAllUsersJson",
-		"getAllGroupsJson",
-		"createUserJson",
-		"createGroupJson",
-		"modifyUsersJson",
-		"createManyGroupsJson",
-		"shaffleUserssJson",
-		"getAllRolesJson",
-		"getAllPriviligesJson",
-		"getAllPermissionsJson",
-	}
-
-	ttt := widget.NewList(
-		func() int { return len(coms) },
-		func() fyne.CanvasObject {
-			l := widget.NewLabel("")
-			return l
-		},
-		func(id widget.ListItemID, co fyne.CanvasObject) {
-			co.(*widget.Label).SetText(coms[id])
-		},
-	)
-	ttt.Resize(fyne.NewSize(200, 500))
+	ttt := widget.NewButton("click", nil)
 
 	// flexLayout := layout.NewVBoxLayout()
 	customWidgetContent := container.NewBorder(
