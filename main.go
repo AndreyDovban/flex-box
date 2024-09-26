@@ -5,8 +5,11 @@ import (
 	"flexbox/mytheme"
 	"flexbox/mywidgets"
 	"flexbox/tree"
+	"fmt"
 	"image/color"
 	"log"
+	"os"
+	"os/exec"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -204,7 +207,6 @@ func main() {
 	text := mywidgets.NewLabel("Hello world l;sfk;s psfd spf")
 	text.Alignment = fyne.TextAlignCenter
 	text.Truncation = fyne.TextTruncateClip
-	log.Println(text.Size())
 
 	// flexLayout := layout.NewVBoxLayout()
 	customWidgetContent := container.NewBorder(
@@ -216,23 +218,71 @@ func main() {
 				text,
 			)))
 
+	/** Ipc Block */
+
+	// create pipeline
+	r, w, _ := os.Pipe()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	// start child process
+	cmd := exec.Command("ls")
+	cmd.Stdout = w
+	// cmd.Start(); err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	cmd.Start()
+
+	// read data from the pipe
+	buf := make([]byte, 1024)
+	n, _ := r.Read(buf)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	fmt.Println(string(buf[:n]))
+
+	// wait for the child process to finish
+	cmd.Wait()
+	// if err := cmd.Wait(); err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	// close the pipe
+	r.Close()
+	w.Close()
+
+	buttonIpc := widget.NewButton("click", nil)
+
+	ipcContent := container.NewBorder(
+		nil, nil, nil, nil,
+		container.New(
+			flex.NewFlexBox("column", "center", "center", 10, 10),
+			buttonIpc,
+		))
+
 	/** App Tabs block */
 
 	tab := container.NewAppTabs(
-		container.NewTabItem("Other", treeContent),
+		container.NewTabItem("Ipc", ipcContent),
+		container.NewTabItem("Tree", treeContent),
 		container.NewTabItem("List", listContent),
 		container.NewTabItem("CustomWidget", customWidgetContent),
 		container.NewTabItem("Flex", flexTabContent),
 	)
-	tab.SelectIndex(2)
+	tab.SelectIndex(0)
 
 	mainWindow.SetContent(tab)
 
 	app.Settings().SetTheme(&mytheme.MyTheme{})
 
-	mainWindow.CenterOnScreen()
+	// mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
-	mainWindow.Show()
+	// mainWindow.Show()
 
 	app.Run()
 }
