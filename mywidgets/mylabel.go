@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -33,5 +34,14 @@ func (elem *MyLabel) Tapped(_ *fyne.PointEvent) {
 
 func (elem *MyLabel) TappedSecondary(_ *fyne.PointEvent) {
 	log.Println("I have been tapped 2")
+	elem.Refresh()
+}
+
+func (elem *MyLabel) Cursor() desktop.Cursor {
+	return desktop.PointerCursor
+}
+
+func (elem *MyLabel) Select(_ fyne.Position, _ fyne.Position) {
+	log.Println("select")
 	elem.Refresh()
 }
