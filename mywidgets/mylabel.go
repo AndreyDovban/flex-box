@@ -1,6 +1,8 @@
 package mywidgets
 
 import (
+	"log"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 )
@@ -13,8 +15,8 @@ type MyLabel struct {
 // NewLabel creates a new label widget with the set text content
 func NewLabel(text string) *MyLabel {
 	elem := &MyLabel{}
-	elem.Text = text
 	elem.ExtendBaseWidget(elem)
+	elem.SetText(text)
 
 	return elem
 }
@@ -24,12 +26,12 @@ func (elem *MyLabel) MinSize() fyne.Size {
 	return elem.BaseWidget.MinSize()
 }
 
-// func (elem *MyLabel) Tapped(_ *fyne.PointEvent) {
-// 	elem.Text += "1"
-// 	elem.Refresh()
-// }
+func (elem *MyLabel) Tapped(_ *fyne.PointEvent) {
+	elem.Text += "1"
+	elem.Refresh()
+}
 
-// func (elem *MyLabel) TappedSecondary(_ *fyne.PointEvent) {
-// 	log.Println("I have been tapped 2")
-// 	elem.Refresh()
-// }
+func (elem *MyLabel) TappedSecondary(_ *fyne.PointEvent) {
+	log.Println("I have been tapped 2")
+	elem.Refresh()
+}
