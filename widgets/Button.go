@@ -1,8 +1,8 @@
 package widgets
 
 import (
+	"flexbox/styles"
 	"image/color"
-	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -12,30 +12,43 @@ import (
 )
 
 type Button struct {
-	widget.BaseWidget
-	Title      *widget.Label
-	background *canvas.Rectangle
+	widget.DisableableWidget
+	Text       *canvas.Text
+	Background *canvas.Rectangle
+
+	OnTapped func() `json:"-"`
+
+	focused bool
 }
 
-func NewButton() *Button {
-	elem := &Button{Title: widget.NewLabel("click")}
+func NewButton(text string, tapped func()) *Button {
+	elem := &Button{
+		Text:     canvas.NewText(text, styles.White),
+		OnTapped: tapped,
+	}
 	elem.ExtendBaseWidget(elem)
 	return elem
 }
 
 func (elem *Button) CreateRenderer() fyne.WidgetRenderer {
 
-	but := container.NewCenter(elem.Title)
+	text := elem.Text
+	text.TextSize = 16
+	text.TextStyle = fyne.TextStyle{
+		Bold: true,
+	}
 
-	elem.background = canvas.NewRectangle(color.RGBA{255, 0, 0, 255})
-	elem.background.StrokeWidth = 1
-	elem.background.StrokeColor = color.RGBA{0, 0, 0, 255}
-	elem.background.CornerRadius = 8
-	// elem.background.Hide()
-	elem.Resize(fyne.NewSize(200, 35))
+	but := container.NewCenter(text)
+
+	if elem.Disabled() {
+		elem.Background = canvas.NewRectangle(styles.Grey_300)
+	} else {
+		elem.Background = canvas.NewRectangle(styles.Red)
+	}
+	elem.Background.CornerRadius = 8
 
 	contain := container.NewStack(
-		elem.background,
+		elem.Background,
 		but,
 	)
 
@@ -43,28 +56,76 @@ func (elem *Button) CreateRenderer() fyne.WidgetRenderer {
 }
 
 func (elem *Button) Tapped(_ *fyne.PointEvent) {
-	log.Println("I have been tapped")
+	if elem.Disabled() {
+		return
+	}
+	elem.OnTapped()
 }
 
 func (elem *Button) TappedSecondary(_ *fyne.PointEvent) {
 }
 
+func (elem *Button) FocusGained() {
+	elem.focused = true
+	elem.Background.StrokeWidth = 1
+	elem.Background.StrokeColor = styles.Grey_700
+	elem.Refresh()
+}
+
+func (elem *Button) FocusLost() {
+	elem.focused = false
+	elem.Background.StrokeWidth = 0
+	elem.Background.StrokeColor = color.Transparent
+	elem.Refresh()
+}
+
+func (b *Button) TypedRune(rune) {
+}
+
+func (elem *Button) TypedKey(ev *fyne.KeyEvent) {
+	if ev.Name == fyne.KeySpace || ev.Name == fyne.KeyEnter || ev.Name == fyne.KeyReturn {
+		elem.OnTapped()
+	}
+}
+
+func (elem *Button) MouseDown(*desktop.MouseEvent) {
+	if elem.Disabled() {
+		return
+	}
+	elem.Background.FillColor = color.Black
+	elem.Refresh()
+}
+
+func (elem *Button) MouseUp(*desktop.MouseEvent) {
+	if elem.Disabled() {
+		return
+	}
+	elem.Background.FillColor = styles.Red_Dark
+	elem.Refresh()
+}
+
 func (elem *Button) Cursor() desktop.Cursor {
+	if elem.Disabled() {
+		return desktop.DefaultCursor
+	}
 	return desktop.PointerCursor
 }
 
 func (elem *Button) MouseIn(*desktop.MouseEvent) {
-	elem.background.FillColor = color.RGBA{140, 0, 0, 255}
+	if elem.Disabled() {
+		return
+	}
+	elem.Background.FillColor = styles.Red_Dark
 	elem.Refresh()
-	log.Println("IN")
 }
 
 func (elem *Button) MouseMoved(*desktop.MouseEvent) {
-	log.Println("MOVE")
 }
 
 func (elem *Button) MouseOut() {
-	elem.background.FillColor = color.RGBA{255, 0, 0, 255}
+	if elem.Disabled() {
+		return
+	}
+	elem.Background.FillColor = styles.Red
 	elem.Refresh()
-	log.Println("OUT")
 }
