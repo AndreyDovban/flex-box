@@ -2,9 +2,9 @@ package main
 
 import (
 	"flexbox/flex"
-	"flexbox/mytheme"
-	"flexbox/mywidgets"
+	"flexbox/styles"
 	"flexbox/tree"
+	"flexbox/widgets"
 	"image/color"
 	"log"
 	"time"
@@ -30,7 +30,7 @@ func main() {
 	align := "center"
 	justify := "center"
 
-	num := mywidgets.NewNumericalEntry()
+	num := widgets.NewNumericalEntry()
 	num.Resize(fyne.NewSize(200, 40))
 
 	text1 := widget.NewLabel("First Label")
@@ -198,7 +198,7 @@ func main() {
 
 	/** Custom wibget block*/
 
-	but := mywidgets.NewButton()
+	but := widgets.NewButton()
 
 	customWidgetContent := container.New(
 		flex.NewFlexBox("row", "center", "center", 0, 0),
@@ -246,7 +246,7 @@ func main() {
 
 	mainWindow.SetContent(tab)
 
-	app.Settings().SetTheme(&mytheme.MyTheme{})
+	app.Settings().SetTheme(&styles.Light{})
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))

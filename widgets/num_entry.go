@@ -1,4 +1,4 @@
-package mywidgets
+package widgets
 
 import (
 	"strconv"

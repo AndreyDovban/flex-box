@@ -1,4 +1,4 @@
-package mywidgets
+package widgets
 
 import (
 	"image/color"
