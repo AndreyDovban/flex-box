@@ -199,11 +199,12 @@ func main() {
 	/** Custom wibget block*/
 
 	but := widgets.NewButton("Подключить", func() { log.Println("work") })
-	but.Resize(fyne.NewSize(200, 35))
-	// but.FocusGained()
+	// but.Resize(fyne.NewSize(200, 35))
+	// but.Disable()
+	// but.CRefresh()
 
 	but2 := widget.NewButton("Подключить", func() { log.Println("work") })
-	but.Resize(fyne.NewSize(200, 35))
+	but2.Resize(fyne.NewSize(200, 35))
 
 	customWidgetContent := container.New(
 		flex.NewFlexBox("row", "center", "center", 16, 0),
