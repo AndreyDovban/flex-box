@@ -197,20 +197,13 @@ func main() {
 	)
 
 	/** Custom wibget block*/
-	// fon := &canvas.Rectangle{
-	// 	StrokeColor: color.Black,
-	// 	StrokeWidth: 1,
-	// }
 
-	text := mywidgets.NewLabel("Hello world l;sfk;s psfd spf")
-	text.Resize(fyne.NewSize(100, 20))
-	text.ExtendBaseWidget(widget.NewEntry())
-	customWidgetContent :=
-		container.NewStack(
-			container.NewCenter(
-				text,
-			),
-		)
+	but := mywidgets.NewButton()
+
+	customWidgetContent := container.New(
+		flex.NewFlexBox("row", "center", "center", 0, 0),
+		but,
+	)
 
 	/** Animation Block */
 
@@ -224,7 +217,7 @@ func main() {
 	)
 
 	red := color.NRGBA{R: 0xff, A: 0xff}
-	blue := color.NRGBA{B: 0xff, A: 0xff}
+	blue := color.NRGBA{G: 0x99, B: 0xff, A: 0xff}
 	anima := canvas.NewColorRGBAAnimation(red, blue, time.Second*2, func(c color.Color) {
 		elem.FillColor = c
 		canvas.Refresh(elem)
