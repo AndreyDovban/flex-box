@@ -178,10 +178,11 @@ func main() {
 		log.Println(text)
 
 	}
+	list.Resize(fyne.NewSize(200, 400))
 
-	block22 := container.NewGridWithColumns(1,
+	block22 := container.NewGridWrap(
+		fyne.NewSize(200, 500),
 		list,
-		widget.NewLabel("                            "),
 	)
 
 	ttt :=
