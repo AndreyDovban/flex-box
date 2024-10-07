@@ -29,16 +29,18 @@ func (Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return White
 	case theme.ColorNameMenuBackground:
 		return Grey_100
-	case theme.ColorNameSeparator:
-		return Red
-	// case theme.ColorNameHover:
+	// case theme.ColorNameSeparator:
 	// 	return Red
+	case theme.ColorNameHover:
+		return Grey_100
 	// case theme.ColorNameFocus:
 	// 	return Red
 	case theme.ColorNamePrimary:
 		return Red
 	case theme.ColorNameSuccess:
 		return color.RGBA{0, 0, 255, 255}
+	case theme.ColorNameSelection:
+		return Grey_700
 
 	default:
 		return theme.DefaultTheme().Color(c, v)
@@ -92,7 +94,7 @@ func (Light) Size(s fyne.ThemeSizeName) float32 {
 	case theme.SizeNameInputRadius:
 		return Radius
 	case theme.SizeNameSelectionRadius:
-		return Radius
+		return 12
 	case theme.SizeNameLineSpacing:
 		return 0
 	default:

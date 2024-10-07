@@ -3,7 +3,6 @@ package widgets
 import (
 	"flexbox/styles"
 	"image/color"
-	"log"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -122,7 +121,6 @@ func (elem *Button) MouseOut() {
 }
 
 func (elem *Button) CRefresh() {
-	log.Println("Refresh")
 
 	if elem.Disabled() {
 		elem.Background.FillColor = styles.Grey_300
