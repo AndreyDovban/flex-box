@@ -4,6 +4,7 @@ import "image/color"
 
 var Red color.Color = color.RGBA{226, 17, 46, 255}
 var Red_Dark color.Color = color.RGBA{181, 14, 37, 255}
+var Red_Active color.Color = color.RGBA{181, 14, 37, 180}
 var White color.Color = color.RGBA{255, 255, 255, 255}
 var Grey_50 color.Color = color.RGBA{249, 250, 251, 255}
 var Grey_100 color.Color = color.RGBA{243, 244, 246, 255}

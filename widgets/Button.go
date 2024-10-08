@@ -14,7 +14,8 @@ import (
 
 type Button struct {
 	widget.DisableableWidget
-	Text       *canvas.Text
+	Text       string
+	Icon       *widget.Icon
 	Background *canvas.Rectangle
 
 	OnTapped func() `json:"-"`
@@ -27,22 +28,47 @@ type Button struct {
 
 func NewButton(text string, tapped func()) *Button {
 	elem := &Button{
-		Text:     canvas.NewText(text, styles.White),
+		Text:     text,
 		OnTapped: tapped,
 	}
 	elem.ExtendBaseWidget(elem)
 	return elem
 }
 
-func (elem *Button) CreateRenderer() fyne.WidgetRenderer {
-
-	text := elem.Text
-	text.TextSize = 16
-	text.TextStyle = fyne.TextStyle{
-		Bold: true,
+func NewButtonWithIcon(text string, icon fyne.Resource, tapped func()) *Button {
+	button := &Button{
+		Text:     text,
+		Icon:     widget.NewIcon(icon),
+		OnTapped: tapped,
 	}
 
-	but := container.NewCenter(text)
+	button.ExtendBaseWidget(button)
+	return button
+}
+
+func (elem *Button) CreateRenderer() fyne.WidgetRenderer {
+
+	objects := []fyne.CanvasObject{}
+
+	if elem.Text != "" {
+		text := canvas.NewText(elem.Text, styles.White)
+		text.TextSize = 16
+		text.TextStyle = fyne.TextStyle{
+			Bold: true,
+		}
+		objects = append(objects, text)
+	}
+
+	if elem.Icon != nil {
+		objects = append(objects, elem.Icon)
+	}
+
+	but := container.NewCenter(
+		container.New(
+			NewFlexBox("row", "center", "center", 16, 0),
+			objects...,
+		),
+	)
 
 	elem.Background = canvas.NewRectangle(styles.Red)
 	elem.Background.CornerRadius = 8
@@ -59,7 +85,8 @@ func (elem *Button) CreateRenderer() fyne.WidgetRenderer {
 }
 
 func (elem *Button) Tapped(_ *fyne.PointEvent) {
-	if !elem.Disabled() {
+	if !elem.Disabled() && elem.OnTapped != nil {
+		elem.hovered = true
 		elem.tapAnimation()
 		elem.CRefresh()
 		elem.OnTapped()
@@ -84,7 +111,7 @@ func (elem *Button) TypedRune(rune) {
 
 func (elem *Button) TypedKey(ev *fyne.KeyEvent) {
 	if ev.Name == fyne.KeySpace || ev.Name == fyne.KeyEnter || ev.Name == fyne.KeyReturn {
-		if !elem.Disabled() {
+		if !elem.Disabled() && elem.OnTapped != nil {
 			elem.tapAnimation()
 			elem.Refresh()
 			elem.OnTapped()
@@ -156,9 +183,9 @@ func (elem *Button) tapAnimation() {
 }
 
 func newButtonTapAnimation(elem *Button) *fyne.Animation {
-	red := color.NRGBA{R: 0xff, A: 0xff}
-	blue := color.RGBA{0, 0, 0, 255}
-	anima := canvas.NewColorRGBAAnimation(red, blue, time.Millisecond*100, func(c color.Color) {
+	start := styles.Red_Dark
+	end := styles.Red_Active
+	anima := canvas.NewColorRGBAAnimation(start, end, time.Millisecond*50, func(c color.Color) {
 		elem.Background.FillColor = c
 		canvas.Refresh(elem)
 	})

@@ -15,7 +15,6 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/driver/desktop"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -155,12 +154,23 @@ func main() {
 
 	/** List With Data block */
 
+	hr := canvas.NewLine(color.White)
+	hr.Resize(fyne.NewSize(200, 0))
+
 	names := binding.NewStringList()
 	names.Set([]string{"Jon", "Bob", "Kate", "Frank", "Andrey"})
 
 	addElem := widget.NewButton("Add elem", func() {
 		names.Append("New text")
 	})
+
+	// list := widget.NewList(
+	// 	func() int { return len(names) },
+	// 	func() fyne.CanvasObject { return widget.NewLabel("") },
+	// 	func(id widget.ListItemID, co fyne.CanvasObject) {
+	// 		co.(*widget.Label).SetText(names[id])
+	// 	},
+	// )
 
 	list := widget.NewListWithData(
 		names,
@@ -170,47 +180,30 @@ func main() {
 			co.(*widget.Label).SetText(txt)
 		},
 	)
-	list.HideSeparators = true
-
+	list.Resize(fyne.NewSize(200, 400))
+	// list.OnSelected = func(id widget.ListItemID) { log.Println(names[id]) }
 	list.OnSelected = func(id widget.ListItemID) {
 		s, _ := names.GetItem(id)
 		text, _ := s.(binding.String).Get()
 		log.Println(text)
 
 	}
-	list.Resize(fyne.NewSize(200, 400))
 
-	block22 := container.NewGridWrap(
-		fyne.NewSize(200, 500),
+	listContent := container.New(
+		flex.NewFlexBox("column", "center", "start", 10, 10),
+		addElem,
+		hr,
 		list,
 	)
 
-	ttt :=
-		container.NewBorder(
-			nil, nil, block22, nil,
-			container.NewStack(
-				widgets.Fon(styles.Grey_700, 0, nil),
-				container.NewCenter(addElem),
-			),
-		)
-
-	listContent :=
-		container.New(
-			layout.NewCustomPaddedLayout(8, 8, 8, 8),
-			container.NewStack(
-				widgets.Fon(styles.Grey_400, 8, nil),
-				ttt,
-			),
-		)
-
 	/** Custom wibget block*/
 
-	but := widgets.NewButton("Подключить", func() {})
+	but := widgets.NewButton("Подключить", func() { log.Println("work") })
 	// but.Resize(fyne.NewSize(200, 35))
 	// but.Disable()
 	// but.CRefresh()
 
-	but2 := widget.NewButton("Подключить", func() {})
+	but2 := widget.NewButton("Подключить", func() { log.Println("work") })
 	but2.Resize(fyne.NewSize(200, 35))
 
 	customWidgetContent := container.New(
@@ -256,7 +249,7 @@ func main() {
 		container.NewTabItem("List", listContent),
 		container.NewTabItem("Flex", flexTabContent),
 	)
-	tab.SelectIndex(3)
+	tab.SelectIndex(0)
 
 	mainWindow.SetContent(tab)
 
