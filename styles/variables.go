@@ -21,3 +21,7 @@ var Grey_950 color.Color = color.RGBA{3, 7, 18, 255}
 var Radius float32 = 8
 var Margin32 float32 = 32
 var Margin16 float32 = 16
+
+var ColorNameBackground color.Color
+var ColorNameForeground color.Color
+var ColorNameMenuBackground color.Color

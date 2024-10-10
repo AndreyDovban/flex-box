@@ -9,7 +9,8 @@ import (
 func Fon(background, strokeColor color.Color, cornerRarius float32) *canvas.Rectangle {
 	b := canvas.NewRectangle(background)
 	b.StrokeWidth = 1
-	b.StrokeColor = strokeColor
 	b.CornerRadius = cornerRarius
+	b.StrokeColor = strokeColor
+
 	return b
 }

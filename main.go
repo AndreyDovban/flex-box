@@ -16,7 +16,6 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -27,8 +26,10 @@ func main() {
 	/** Flex block */
 
 	data := binding.NewString()
-	colorTheme := theme.VariantLight
-	kkk := &styles.Light{}
+	colorTheme := binding.NewBool()
+	colorTheme.Set(true)
+	light := &styles.Light{}
+	dark := &styles.Dark{}
 
 	direction := "column"
 	align := "center"
@@ -246,25 +247,26 @@ func main() {
 
 	/** Custom Theme block */
 
-	changeThemeBut := widget.NewButton("click", func() {
-		log.Println(colorTheme)
-		if colorTheme == theme.VariantDark {
-			colorTheme = theme.VariantLight
-		} else {
-			colorTheme = theme.VariantDark
-		}
-		app.Settings().SetTheme(kkk)
-	})
+	testMenuItem := widgets.Fon(styles.ColorNameForeground, color.Black, styles.Radius)
+	testMenuItem.SetMinSize(fyne.NewSquareSize(200))
 
-	testRectangle := canvas.NewRectangle(kkk.Color(theme.ColorNameBackground, colorTheme))
-	testRectangle.SetMinSize(fyne.NewSquareSize(200))
+	testLabel := canvas.NewText("GENERATION", styles.ColorNameForeground)
+	testLabel.TextSize = 24
+	testLabel.TextStyle.Bold = true
+
+	changeThemeBut := widget.NewButton("click", func() {
+		v, _ := colorTheme.Get()
+		colorTheme.Set(!v)
+
+	})
 
 	customThemeContent := container.NewCenter(
 		container.New(
 			layout.NewGridWrapLayout(fyne.NewSize(400, 600)),
 			container.New(layout.NewCustomPaddedVBoxLayout(24),
+				testLabel,
 				changeThemeBut,
-				testRectangle,
+				testMenuItem,
 			),
 		))
 
@@ -281,8 +283,16 @@ func main() {
 	tab.SelectIndex(0)
 
 	mainWindow.SetContent(tab)
-
-	app.Settings().SetTheme(kkk)
+	colorTheme.AddListener(binding.NewDataListener(func() {
+		v, _ := colorTheme.Get()
+		if v {
+			app.Settings().SetTheme(light)
+		} else {
+			app.Settings().SetTheme(dark)
+		}
+		testMenuItem.FillColor = styles.ColorNameForeground
+		log.Println(testMenuItem.FillColor)
+	}))
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
