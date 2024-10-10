@@ -27,7 +27,7 @@ func main() {
 
 	data := binding.NewString()
 	colorTheme := binding.NewBool()
-	colorTheme.Set(true)
+	colorTheme.Set(false)
 	light := &styles.Light{}
 	dark := &styles.Dark{}
 
@@ -265,8 +265,8 @@ func main() {
 			layout.NewGridWrapLayout(fyne.NewSize(400, 600)),
 			container.New(layout.NewCustomPaddedVBoxLayout(24),
 				testLabel,
-				changeThemeBut,
 				testMenuItem,
+				changeThemeBut,
 			),
 		))
 
@@ -290,8 +290,8 @@ func main() {
 		} else {
 			app.Settings().SetTheme(dark)
 		}
-		testMenuItem.FillColor = styles.ColorNameForeground
-		log.Println(testMenuItem.FillColor)
+		// testMenuItem.FillColor = styles.ColorNameForeground
+		log.Println(styles.ColorNameForeground)
 	}))
 
 	mainWindow.CenterOnScreen()
