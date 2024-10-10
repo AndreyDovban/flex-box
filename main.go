@@ -15,6 +15,8 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/driver/desktop"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -25,6 +27,8 @@ func main() {
 	/** Flex block */
 
 	data := binding.NewString()
+	colorTheme := theme.VariantLight
+	kkk := &styles.Light{}
 
 	direction := "column"
 	align := "center"
@@ -240,9 +244,34 @@ func main() {
 	move.RepeatCount = 30
 	move.Start()
 
+	/** Custom Theme block */
+
+	changeThemeBut := widget.NewButton("click", func() {
+		log.Println(colorTheme)
+		if colorTheme == theme.VariantDark {
+			colorTheme = theme.VariantLight
+		} else {
+			colorTheme = theme.VariantDark
+		}
+		app.Settings().SetTheme(kkk)
+	})
+
+	testRectangle := canvas.NewRectangle(kkk.Color(theme.ColorNameBackground, colorTheme))
+	testRectangle.SetMinSize(fyne.NewSquareSize(200))
+
+	customThemeContent := container.NewCenter(
+		container.New(
+			layout.NewGridWrapLayout(fyne.NewSize(400, 600)),
+			container.New(layout.NewCustomPaddedVBoxLayout(24),
+				changeThemeBut,
+				testRectangle,
+			),
+		))
+
 	/** App Tabs block */
 
 	tab := container.NewAppTabs(
+		container.NewTabItem("CustomWidget", customThemeContent),
 		container.NewTabItem("CustomWidget", customWidgetContent),
 		container.NewTabItem("Animation", animationContent),
 		container.NewTabItem("Tree", treeContent),
@@ -253,7 +282,7 @@ func main() {
 
 	mainWindow.SetContent(tab)
 
-	app.Settings().SetTheme(&styles.Light{})
+	app.Settings().SetTheme(kkk)
 
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))

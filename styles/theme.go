@@ -7,43 +7,33 @@ import (
 	"fyne.io/fyne/v2/theme"
 )
 
-type Light struct{}
+type Light struct {
+}
 
-func (Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
+func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 	switch c {
-	case theme.ColorNameDisabled:
-		return color.RGBA{255, 255, 255, 100}
-	case theme.ColorNameDisabledButton:
-		return color.RGBA{255, 255, 255, 100}
-
 	case theme.ColorNameBackground:
-		return Grey_200
-	case theme.ColorNameButton:
-		return Grey_300
+		if v == theme.VariantLight {
+			return Grey_200
+		} else {
+			return Grey_900
+		}
 	case theme.ColorNameForeground:
 		return Grey_800
-	// case theme.ColorNameForegroundOnPrimary:
-	// 	return Red
-	// case theme.ColorNameHeaderBackground:
-	// 	return Red
-	case theme.ColorNameInputBorder:
-		return Grey_300
-	// case theme.ColorNameShadow:
-	// 	return Grey_400
 	case theme.ColorNameInputBackground:
 		return White
+	case theme.ColorNameInputBorder:
+		return Grey_300
 	case theme.ColorNameMenuBackground:
 		return Grey_100
-	// case theme.ColorNameSeparator:
-	// 	return Red
+		/*
+
+		 */
+
+	case theme.ColorNameButton:
+		return Grey_300
 	case theme.ColorNameHover:
 		return Grey_300
-	// case theme.ColorNameFocus:
-	// 	return Red
-	// case theme.ColorNamePrimary:
-	// 	return Red
-	// case theme.ColorNameSuccess:
-	// 	return color.RGBA{0, 0, 255, 255}
 	case theme.ColorNameSelection:
 		return White
 	case theme.ColorNameScrollBar:
@@ -54,37 +44,38 @@ func (Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return Red
 	case theme.ColorNameOverlayBackground:
 		return Grey_100
+	case theme.ColorNameDisabled:
+		return color.RGBA{255, 255, 255, 100}
+	case theme.ColorNameDisabledButton:
+		return color.RGBA{255, 255, 255, 100}
 
 	default:
 		return theme.DefaultTheme().Color(c, v)
 	}
 }
 
-func (Light) Font(s fyne.TextStyle) fyne.Resource {
+func (l *Light) Font(s fyne.TextStyle) fyne.Resource {
 	// if s.Monospace {
-	// 	return theme.DefaultTheme().Font(s)
+	// 	return static.ResInterRegularTtf
 	// }
 	// if s.Bold {
 	// 	if s.Italic {
-	// 		return theme.DefaultTheme().Font(s)
+	// 		return static.ResInterSemiBoldTtf
 	// 	}
-	// 	return theme.DefaultTheme().Font(s)
+	// 	return static.ResInterSemiBoldTtf
 	// }
 	// if s.Italic {
-	// 	return theme.DefaultTheme().Font(s)
+	// 	return static.ResInterRegularTtf
 	// }
+	// return static.ResInterRegularTtf
 	return theme.DefaultTheme().Font(s)
 }
 
-func (Light) Icon(n fyne.ThemeIconName) fyne.Resource {
-	switch n {
-	// case theme.IconNameSettings:
-	// 	return static.ResSettingsSvg
-	}
+func (l *Light) Icon(n fyne.ThemeIconName) fyne.Resource {
 	return theme.DefaultTheme().Icon(n)
 }
 
-func (Light) Size(s fyne.ThemeSizeName) float32 {
+func (l *Light) Size(s fyne.ThemeSizeName) float32 {
 	switch s {
 	case theme.SizeNameCaptionText:
 		return 10
