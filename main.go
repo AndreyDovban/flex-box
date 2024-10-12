@@ -280,10 +280,8 @@ func main() {
 
 	labelTest2 := widget.NewLabel(loremIpsum)
 	labelTest2.Wrapping = fyne.TextWrapWord
-	log.Println(labelTest2.BaseWidget.Position())
-	labelTest2.BaseWidget.Move(fyne.NewPos(20, 0))
-	log.Println(labelTest2.BaseWidget.Position())
-	labelTest2.Position()
+
+	labelTest2.TextStyle.TabWidth = 40
 
 	textGrigContent := container.NewCenter(
 		container.NewStack(
@@ -299,9 +297,32 @@ func main() {
 		),
 	)
 
+	/** Custom Label whith arrow */
+
+	arrowLabel := widgets.NewArrowLabel("Example", func() { log.Println("click") })
+	arrowLabel2 := widgets.NewArrowLabel("Example", func() { log.Println("click") })
+	arrowLabel3 := widgets.NewArrowLabel("Example", func() { log.Println("click") })
+
+	arrowLabelContent := container.NewCenter(
+		container.NewStack(
+			widgets.Fon(color.Transparent, color.White, 8),
+			container.New(
+				layout.NewGridWrapLayout(fyne.NewSize(400, 400)),
+				container.New(layout.NewCustomPaddedLayout(16, 16, 16, 16),
+					container.New(layout.NewCustomPaddedVBoxLayout(24),
+						arrowLabel,
+						arrowLabel2,
+						arrowLabel3,
+					),
+				),
+			),
+		),
+	)
+
 	/** App Tabs block */
 
 	tab := container.NewAppTabs(
+		container.NewTabItem("ArrowLabel", arrowLabelContent),
 		container.NewTabItem("TextGrig", textGrigContent),
 		container.NewTabItem("CustomWidget", customThemeContent),
 		container.NewTabItem("CustomWidget", customWidgetContent),
