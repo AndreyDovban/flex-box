@@ -208,3 +208,16 @@ func (l *Dark) Size(s fyne.ThemeSizeName) float32 {
 		return theme.DefaultTheme().Size(s)
 	}
 }
+
+type Dark2 struct {
+	*Dark
+}
+
+func (l *Dark2) Size(s fyne.ThemeSizeName) float32 {
+	switch s {
+	case theme.SizeNameInnerPadding:
+		return 0
+	default:
+		return l.Dark.Size(s)
+	}
+}
