@@ -11,15 +11,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-type List struct {
-	widget.BaseWidget
-	List []*ArrowLabel
-}
-
-// func NewList([]string) *List {
-
-// }
-
 type ArrowLabel struct {
 	widget.BaseWidget
 	Icon *widget.Icon
@@ -30,15 +21,12 @@ type ArrowLabel struct {
 
 	selected     bool
 	selectedIcon *widget.Icon
-
-	OnTapped func() `json:"-"`
 }
 
-func NewArrowLabel(text string, tapped func()) *ArrowLabel {
+func NewArrowLabel(text string) *ArrowLabel {
 	elem := &ArrowLabel{
 		Text:         text,
 		Icon:         widget.NewIcon(theme.NavigateNextIcon()),
-		OnTapped:     tapped,
 		F:            container.NewGridWrap(fyne.NewSize(24, 24)),
 		selectedIcon: widget.NewIcon(theme.HistoryIcon()),
 	}
@@ -97,12 +85,13 @@ func (elem *ArrowLabel) MouseOut() {
 	elem.Refresh()
 }
 
-func (elem *ArrowLabel) Tapped(*fyne.PointEvent) {
-	elem.Refresh()
-	if onTapped := elem.OnTapped; onTapped != nil {
-		elem.selected = true
-		elem.selectedIcon.Show()
-		onTapped()
-		elem.Refresh()
-	}
-}
+// func (elem *ArrowLabel) Tapped(*fyne.PointEvent) {
+// 	elem.Refresh()
+// 	if onTapped := elem.OnTapped; onTapped != nil {
+// 		if elem.selected {
+// 			elem.selectedIcon.Show()
+// 		}
+// 		onTapped()
+// 		elem.Refresh()
+// 	}
+// }
