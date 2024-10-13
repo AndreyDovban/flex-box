@@ -40,7 +40,7 @@ func main() {
 		container.NewTabItem("List", block.ListBlock()),
 		container.NewTabItem("Flex", block.FlexBlock()),
 	)
-	tab.SelectIndex(5)
+	tab.SelectIndex(2)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {
