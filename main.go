@@ -48,7 +48,7 @@ func main() {
 		if v {
 			app.Settings().SetTheme(light)
 		} else {
-			app.Settings().SetTheme(light)
+			app.Settings().SetTheme(&styles.Dark{})
 		}
 		// testMenuItem.FillColor = styles.ColorNameForeground
 	}))

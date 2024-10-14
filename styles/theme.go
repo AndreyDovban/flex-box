@@ -22,6 +22,9 @@ func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 	case theme.ColorNameBackground:
 		return Grey_200
 	case theme.ColorNameForeground:
+		if v == 1 {
+			return Grey_200
+		}
 		return Grey_800
 	case theme.ColorNameInputBackground:
 		return White

@@ -17,16 +17,15 @@ import (
 func CustomThemeBlock(colorTheme binding.Bool) *fyne.Container {
 
 	tv := binding.NewInt()
-	t, _ := tv.Get()
 
 	light := &styles.Light{}
 
-	testRectangle := widgets.Fon(light.Color("dog", fyne.ThemeVariant(t)), color.Black, styles.Radius)
-	testRectangle.SetMinSize(fyne.NewSquareSize(200))
-
-	testLabel := canvas.NewText("GENERATION", light.Color("foreground", 2))
+	testLabel := canvas.NewText("GENERATION", nil)
 	testLabel.TextSize = 24
 	testLabel.TextStyle.Bold = true
+
+	testRectangle := widgets.Fon(nil, color.Black, styles.Radius)
+	testRectangle.SetMinSize(fyne.NewSquareSize(200))
 
 	changeThemeBut := widget.NewButton("click", func() {
 		v, _ := colorTheme.Get()
@@ -42,6 +41,7 @@ func CustomThemeBlock(colorTheme binding.Bool) *fyne.Container {
 
 	tv.AddListener(binding.NewDataListener(func() {
 		t1, _ := tv.Get()
+		testLabel.Color = light.Color("foreground", fyne.ThemeVariant(t1))
 		testRectangle.FillColor = light.Color("dog", fyne.ThemeVariant(t1))
 	}))
 
