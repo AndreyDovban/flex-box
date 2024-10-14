@@ -51,7 +51,6 @@ func main() {
 			app.Settings().SetTheme(dark)
 		}
 		// testMenuItem.FillColor = styles.ColorNameForeground
-		log.Println(styles.ColorNameForeground)
 	}))
 
 	mainWindow.CenterOnScreen()

@@ -16,10 +16,12 @@ import (
 /** Custom Theme block */
 func CustomThemeBlock(colorTheme binding.Bool) *fyne.Container {
 
-	testMenuItem := widgets.Fon(styles.ColorNameForeground, color.Black, styles.Radius)
+	light := &styles.Light{}
+
+	testMenuItem := widgets.Fon(light.Color("foreground", 2), color.Black, styles.Radius)
 	testMenuItem.SetMinSize(fyne.NewSquareSize(200))
 
-	testLabel := canvas.NewText("GENERATION", styles.ColorNameForeground)
+	testLabel := canvas.NewText("GENERATION", light.Color("foreground", 2))
 	testLabel.TextSize = 24
 	testLabel.TextStyle.Bold = true
 
