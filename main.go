@@ -19,7 +19,7 @@ func main() {
 	colorTheme := binding.NewBool()
 	colorTheme.Set(true)
 	light := &styles.Light{}
-	dark := &styles.Dark{}
+	// dark := &styles.Dark{}
 
 	/** Shortcat example */
 
@@ -40,7 +40,7 @@ func main() {
 		container.NewTabItem("List", block.ListBlock()),
 		container.NewTabItem("Flex", block.FlexBlock()),
 	)
-	tab.SelectIndex(2)
+	tab.SelectIndex(1)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {
@@ -48,7 +48,7 @@ func main() {
 		if v {
 			app.Settings().SetTheme(light)
 		} else {
-			app.Settings().SetTheme(dark)
+			app.Settings().SetTheme(light)
 		}
 		// testMenuItem.FillColor = styles.ColorNameForeground
 	}))

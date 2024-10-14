@@ -128,6 +128,9 @@ type Dark struct {
 
 func (l *Dark) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 	switch c {
+	case "dog":
+		return Green
+
 	case theme.ColorNameBackground:
 		return Grey_900
 	case theme.ColorNameForeground:
