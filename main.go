@@ -32,6 +32,7 @@ func main() {
 	/** App Tabs block */
 
 	tab := container.NewAppTabs(
+		container.NewTabItem("DragEndDrop", block.DragEndDrop()),
 		container.NewTabItem("TextGrig", block.TextGridBlock()),
 		container.NewTabItem("Theme", block.CustomThemeBlock(colorTheme)),
 		container.NewTabItem("Widget", block.CustomWidgetBlokc()),
@@ -40,7 +41,7 @@ func main() {
 		container.NewTabItem("List", block.ListBlock()),
 		container.NewTabItem("Flex", block.FlexBlock()),
 	)
-	tab.SelectIndex(1)
+	tab.SelectIndex(0)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {
