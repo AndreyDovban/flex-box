@@ -7,13 +7,14 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/widget"
 )
 
 /** Custom wibget block*/
 func CustomWidgetBlokc() *fyne.Container {
 
-	customWidget := widget.NewEntry()
+	customWidget := widgets.NewLabel("Example cloud.google.com/go v0.44.1/go.mod h1:iSa0Kza dfgd dfg ddfg df  dfgdfgdfg  dfgdfgdfg dfgdfgdfgd dfgdfgdfg dfgdfgdf")
+	// customWidget.Title.Resize(fyne.NewSize(200, 400))
+	customWidget.Resize(fyne.NewSize(200, 400))
 
 	customWidgetContent := container.NewCenter(
 		container.NewStack(
