@@ -1,7 +1,9 @@
 package block
 
 import (
+	"flexbox/widgets"
 	"fmt"
+	"image/color"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -31,12 +33,15 @@ func DragEndDrop() *fyne.Container {
 
 	// elem := canvas.NewRectangle(color.Black)
 	// elem.Resize(fyne.NewSquareSize(100))
+	fon := widgets.Fon(color.Transparent, color.White, 8)
+	fon.Resize(fyne.NewSize(70, 36))
 
 	elem := &DrawRect{}
 	elem.Text = "Click"
-	elem.Resize(fyne.NewSquareSize(100))
+	elem.Resize(fyne.NewSize(50, 16))
 
 	dragendDropContent := container.NewWithoutLayout(
+		fon,
 		elem,
 	)
 
