@@ -41,7 +41,7 @@ func main() {
 		container.NewTabItem("List", block.ListBlock()),
 		container.NewTabItem("Flex", block.FlexBlock()),
 	)
-	tab.SelectIndex(0)
+	tab.SelectIndex(1)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {
@@ -58,5 +58,6 @@ func main() {
 	mainWindow.Resize(fyne.NewSize(1000, 600))
 	mainWindow.Show()
 
+	app.SendNotification(fyne.NewNotification("Title", "text string"))
 	app.Run()
 }
