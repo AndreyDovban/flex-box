@@ -15,6 +15,9 @@ func PrecessLong(flag *bool) {
 	if *flag {
 		return
 	}
+	*flag = true
+	fmt.Println("start")
+
 	file, err := os.Create("test.txt")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -36,9 +39,6 @@ func ContextBlock() *fyne.Container {
 
 	butStart := widget.NewButton("Start", func() {
 		go PrecessLong(&flag)
-		time.Sleep(10 * time.Millisecond)
-		flag = true
-
 	})
 	butStart.Importance = widget.HighImportance
 
