@@ -2,8 +2,8 @@ package block
 
 import (
 	"fmt"
-	"log"
-	"os/exec"
+	"os"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -11,30 +11,39 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+func PrecessLong(flag *bool) {
+	if *flag {
+		return
+	}
+	file, err := os.Create("test.txt")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for {
+		time.Sleep(time.Second)
+		file.WriteString("test string\n")
+		fmt.Println(*flag)
+		if !*flag {
+			return
+		}
+
+	}
+}
+
 /** Notify Block */
 func ContextBlock() *fyne.Container {
-
-	var cmd *exec.Cmd
-	pid := 0
+	flag := false
 
 	butStart := widget.NewButton("Start", func() {
-		if pid == 0 {
-			cmd = exec.Command("tilix")
-			log.Printf("Running command and waiting for it to finish...")
-			err := cmd.Start()
-			log.Printf("Command finished with error: %v", err)
-			pid = cmd.Process.Pid
-		}
+		go PrecessLong(&flag)
+		time.Sleep(10 * time.Millisecond)
+		flag = true
+
 	})
 	butStart.Importance = widget.HighImportance
 
 	butStop := widget.NewButton("Stop", func() {
-		if pid != 0 {
-			fmt.Println(pid)
-			cmd.Process.Kill()
-			pid = 0
-		}
-
+		flag = false
 	})
 	butStop.Importance = widget.HighImportance
 
