@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
-	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -12,38 +11,30 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func f(stop chan bool) {
-	cmd := exec.Command("tilix")
-	log.Printf("Running command and waiting for it to finish...")
-	err := cmd.Start()
-	log.Printf("Command finished with error: %v", err)
-
-	for {
-		select {
-		default:
-			// Выполнение работы в горутине
-			fmt.Println("Работаю...")
-			time.Sleep(1 * time.Second)
-		case <-stop:
-			// Получен сигнал об остановке
-			fmt.Println("Остановлен")
-			cmd.Wait()
-			return
-		}
-	}
-}
-
 /** Notify Block */
 func ContextBlock() *fyne.Container {
-	stop := make(chan bool)
+
+	var cmd *exec.Cmd
+	pid := 0
 
 	butStart := widget.NewButton("Start", func() {
-		go f(stop)
+		if pid == 0 {
+			cmd = exec.Command("tilix")
+			log.Printf("Running command and waiting for it to finish...")
+			err := cmd.Start()
+			log.Printf("Command finished with error: %v", err)
+			pid = cmd.Process.Pid
+		}
 	})
 	butStart.Importance = widget.HighImportance
 
 	butStop := widget.NewButton("Stop", func() {
-		stop <- true
+		if pid != 0 {
+			fmt.Println(pid)
+			cmd.Process.Kill()
+			pid = 0
+		}
+
 	})
 	butStop.Importance = widget.HighImportance
 
