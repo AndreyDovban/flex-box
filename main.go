@@ -17,7 +17,7 @@ func main() {
 	mainWindow := app.NewWindow("Learn")
 
 	colorTheme := binding.NewBool()
-	colorTheme.Set(true)
+	colorTheme.Set(false)
 	light := &styles.Light{}
 	// dark := &styles.Dark{}
 
@@ -40,8 +40,10 @@ func main() {
 		container.NewTabItem("Tree", block.TreeBlock()),
 		container.NewTabItem("List", block.ListBlock()),
 		container.NewTabItem("Flex", block.FlexBlock()),
+		container.NewTabItem("Notify", block.NotifyBlock()),
+		container.NewTabItem("Context", block.ContextBlock()),
 	)
-	tab.SelectIndex(1)
+	tab.SelectIndex(9)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {
@@ -58,6 +60,5 @@ func main() {
 	mainWindow.Resize(fyne.NewSize(1000, 600))
 	mainWindow.Show()
 
-	app.SendNotification(fyne.NewNotification("Title", "text string"))
 	app.Run()
 }
