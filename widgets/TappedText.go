@@ -1,7 +1,6 @@
 package widgets
 
 import (
-	"fmt"
 	"image/color"
 
 	"fyne.io/fyne/v2"
@@ -39,7 +38,6 @@ func (elem *TappedText) CreateRenderer() fyne.WidgetRenderer {
 
 	th := elem.Theme()
 	h := th.Color(theme.ColorNameHyperlink, 0)
-	fmt.Println(h)
 
 	elem.Title.Color = h
 
@@ -60,24 +58,26 @@ func (elem *TappedText) TappedSecondary(_ *fyne.PointEvent) {}
 
 func (elem *TappedText) MouseIn(e *desktop.MouseEvent) {
 	elem.hovered = true
-	th := elem.Theme()
-
+	th := fyne.CurrentApp().Settings().Theme()
 	h := th.Color(theme.ColorNameHeaderBackground, 0)
-	fmt.Println(h)
 	elem.Title.Color = h
 	elem.Refresh()
 }
 
 func (elem *TappedText) MouseOut() {
 	elem.hovered = false
-	th := elem.Theme()
-	v := fyne.CurrentApp().Settings().ThemeVariant()
-	h := th.Color(theme.ColorNameHyperlink, v)
-	fmt.Println(h)
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
 	elem.Title.Color = h
 
 	elem.Refresh()
+}
 
+func (elem *TappedText) Update() {
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
+	elem.Title.Color = h
+	elem.Title.Refresh()
 }
 
 func (elem *TappedText) MouseMoved(e *desktop.MouseEvent) {

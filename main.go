@@ -17,9 +17,18 @@ func main() {
 	mainWindow := app.NewWindow("Learn")
 
 	colorTheme := binding.NewBool()
-	colorTheme.Set(false)
+	colorTheme.Set(true)
 	light := &styles.Light{}
 	dark := &styles.Dark{}
+
+	colorTheme.AddListener(binding.NewDataListener(func() {
+		v, _ := colorTheme.Get()
+		if v {
+			app.Settings().SetTheme(light)
+		} else {
+			app.Settings().SetTheme(dark)
+		}
+	}))
 
 	/** Shortcat example */
 
@@ -35,7 +44,7 @@ func main() {
 		container.NewTabItem("DragEndDrop", block.DragEndDrop()),
 		container.NewTabItem("TextGrig", block.TextGridBlock()),
 		container.NewTabItem("Theme", block.CustomThemeBlock(colorTheme)),
-		container.NewTabItem("Widget", block.CustomWidgetBlokc()),
+		container.NewTabItem("Widget", block.CustomWidgetBlokc(colorTheme)),
 		container.NewTabItem("Animation", block.AnimationBlock()),
 		container.NewTabItem("Tree", block.TreeBlock()),
 		container.NewTabItem("List", block.ListBlock()),
@@ -46,16 +55,7 @@ func main() {
 	tab.SelectIndex(3)
 
 	mainWindow.SetContent(tab)
-	colorTheme.AddListener(binding.NewDataListener(func() {
-		v, _ := colorTheme.Get()
-		if v {
-			app.Settings().SetTheme(light)
-		} else {
-			app.Settings().SetTheme(dark)
-		}
-		// testMenuItem.FillColor = styles.ColorNameForeground
-	}))
-	// app.Settings().SetTheme(dark)
+
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
 	mainWindow.Show()

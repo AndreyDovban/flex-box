@@ -16,10 +16,6 @@ import (
 /** Custom Theme block */
 func CustomThemeBlock(colorTheme binding.Bool) *fyne.Container {
 
-	tv := binding.NewInt()
-
-	light := &styles.Light{}
-
 	testLabel := canvas.NewText("GENERATION", nil)
 	testLabel.TextSize = 24
 	testLabel.TextStyle.Bold = true
@@ -30,20 +26,8 @@ func CustomThemeBlock(colorTheme binding.Bool) *fyne.Container {
 	changeThemeBut := widget.NewButton("click", func() {
 		v, _ := colorTheme.Get()
 		colorTheme.Set(!v)
-		t1, _ := tv.Get()
-		if t1 == 1 {
-			tv.Set(2)
-		} else {
-			tv.Set(1)
-		}
 
 	})
-
-	tv.AddListener(binding.NewDataListener(func() {
-		t1, _ := tv.Get()
-		testLabel.Color = light.Color("foreground", fyne.ThemeVariant(t1))
-		testRectangle.FillColor = light.Color("dog", fyne.ThemeVariant(t1))
-	}))
 
 	customThemeContent := container.NewCenter(
 		container.New(

@@ -12,10 +12,13 @@ type Dark struct{}
 func (l *Dark) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 
 	switch c {
+	case "darktext":
+		return Grey_400
 	case theme.ColorNameBackground:
 		return Grey_900
 	case theme.ColorNameForeground:
 		return Grey_100
+
 	case theme.ColorNameInputBackground:
 		return Grey_900
 	case theme.ColorNameInputBorder:
@@ -29,6 +32,7 @@ func (l *Dark) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return Hover
 	case theme.ColorNameButton:
 		return Grey_300
+
 	case theme.ColorNameForegroundOnPrimary:
 		return White
 	case theme.ColorNameSuccess:
@@ -42,12 +46,14 @@ func (l *Dark) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return Grey_600
 	case theme.ColorNameHeaderBackground:
 		return Grey_300
+
 	case theme.ColorNamePressed:
 		return White
 	case theme.ColorNameOverlayBackground:
 		return Grey_800
 	case theme.ColorNameDisabled:
 		return Grey_600
+
 	case theme.ColorNameDisabledButton:
 		return Disabled
 	case theme.ColorNameShadow:

@@ -6,11 +6,15 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 )
 
 /** Custom wibget block*/
-func CustomWidgetBlokc() *fyne.Container {
+func CustomWidgetBlokc(colorTheme binding.Bool) *fyne.Container {
+
+	// light := &styles.Light{}
+	// dark := &styles.Dark{}
 
 	elem := widgets.NewTappedText("text", func() {
 		fmt.Println("work")
@@ -27,6 +31,10 @@ func CustomWidgetBlokc() *fyne.Container {
 			elem,
 		),
 	)
+
+	colorTheme.AddListener(binding.NewDataListener(func() {
+		elem.Update()
+	}))
 
 	return content
 }

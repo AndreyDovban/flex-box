@@ -13,32 +13,17 @@ func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 
 	switch c {
 	case "darktext":
-		if v == 2 {
-			return Grey_400
-		}
 		return Grey_600
-
 	case theme.ColorNameBackground:
-		if v == 2 {
-			return Grey_900
-		}
 		return Grey_200
 	case theme.ColorNameForeground:
-		if v == 2 {
-			return Grey_100
-		}
 		return Grey_800
+
 	case theme.ColorNameInputBackground:
 		return White
 	case theme.ColorNameInputBorder:
-		if v == 2 {
-			return Grey_600
-		}
 		return Grey_300
 	case theme.ColorNameMenuBackground:
-		if v == 2 {
-			return Grey_800
-		}
 		return Grey_100
 
 	case theme.ColorNamePrimary:
@@ -47,6 +32,7 @@ func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return Hover
 	case theme.ColorNameButton:
 		return Grey_300
+
 	case theme.ColorNameForegroundOnPrimary:
 		return White
 	case theme.ColorNameSuccess:
@@ -60,12 +46,14 @@ func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 		return Grey_600
 	case theme.ColorNameHeaderBackground:
 		return Red
+
 	case theme.ColorNamePressed:
 		return White
 	case theme.ColorNameOverlayBackground:
 		return Grey_100
 	case theme.ColorNameDisabled:
 		return Grey_600
+
 	case theme.ColorNameDisabledButton:
 		return Disabled
 	case theme.ColorNameShadow:
