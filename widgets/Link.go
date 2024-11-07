@@ -34,8 +34,6 @@ func NewLink(text, url_string string) *Link {
 		Url:   t,
 	}
 
-	elem.Title.Alignment = fyne.TextAlignLeading
-	elem.Alignment = fyne.TextAlignLeading
 	elem.ExtendBaseWidget(elem)
 
 	return elem

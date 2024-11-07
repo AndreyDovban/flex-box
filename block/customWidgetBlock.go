@@ -17,9 +17,9 @@ func CustomWidgetBlokc() *fyne.Container {
 	})
 
 	elem.SetSize(32)
-	elem.SetText(";sd;d;")
-
-	fmt.Println(fyne.CurrentApp().Settings().ThemeVariant())
+	// th := fyne.CurrentApp().Settings().Theme()
+	// v := fyne.CurrentApp().Settings().ThemeVariant()
+	// elem.SetColor(th.Color(theme.ColorNameHyperlink, v))
 
 	content := container.NewCenter(
 		container.New(

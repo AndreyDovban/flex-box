@@ -19,7 +19,7 @@ func main() {
 	colorTheme := binding.NewBool()
 	colorTheme.Set(false)
 	light := &styles.Light{}
-	// dark := &styles.Dark{}
+	dark := &styles.Dark{}
 
 	/** Shortcat example */
 
@@ -51,11 +51,11 @@ func main() {
 		if v {
 			app.Settings().SetTheme(light)
 		} else {
-			app.Settings().SetTheme(&styles.Dark{})
+			app.Settings().SetTheme(dark)
 		}
 		// testMenuItem.FillColor = styles.ColorNameForeground
 	}))
-
+	// app.Settings().SetTheme(dark)
 	mainWindow.CenterOnScreen()
 	mainWindow.Resize(fyne.NewSize(1000, 600))
 	mainWindow.Show()
