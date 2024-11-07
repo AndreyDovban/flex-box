@@ -1,7 +1,6 @@
 package widgets
 
 import (
-	"fmt"
 	"image/color"
 
 	"fyne.io/fyne/v2"
@@ -14,6 +13,7 @@ import (
 
 type TappedText struct {
 	widget.BaseWidget
+	Alignment  fyne.TextAlign
 	Title      *canvas.Text
 	OnTapped   func() `json:"-"`
 	Color      color.Color
@@ -24,17 +24,21 @@ type TappedText struct {
 }
 
 func NewTappedText(text string, function func()) *TappedText {
+
 	elem := &TappedText{
 		Title:    canvas.NewText(text, nil),
 		OnTapped: function,
 	}
+
+	elem.Title.Alignment = fyne.TextAlignLeading
+	elem.Alignment = fyne.TextAlignLeading
 	elem.ExtendBaseWidget(elem)
 
 	return elem
 }
 
 func (elem *TappedText) CreateRenderer() fyne.WidgetRenderer {
-	c := container.NewCenter(elem.Title)
+	c := container.NewWithoutLayout(elem.Title)
 
 	return widget.NewSimpleRenderer(c)
 }
@@ -44,7 +48,6 @@ func (elem *TappedText) Cursor() desktop.Cursor {
 }
 
 func (elem *TappedText) Tapped(e *fyne.PointEvent) {
-	fmt.Println(elem.MinSize())
 	elem.OnTapped()
 }
 
@@ -54,14 +57,15 @@ func (elem *TappedText) MouseIn(e *desktop.MouseEvent) {
 	elem.hovered = true
 	th := elem.Theme()
 	v := fyne.CurrentApp().Settings().ThemeVariant()
-	fmt.Println(th.Color("hyperlink", 0))
-	elem.Title.Color = th.Color(theme.ColorNameFocus, v)
+	elem.Title.Color = th.Color(theme.ColorNameHeaderBackground, v)
 	elem.Refresh()
 }
 
 func (elem *TappedText) MouseOut() {
 	elem.hovered = false
-	elem.Title.Color = elem.Color
+	th := elem.Theme()
+	v := fyne.CurrentApp().Settings().ThemeVariant()
+	elem.Title.Color = th.Color(theme.ColorNameHyperlink, v)
 	elem.Refresh()
 
 }

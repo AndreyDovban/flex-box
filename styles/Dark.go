@@ -41,7 +41,7 @@ func (l *Dark) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 	case theme.ColorNameScrollBar:
 		return Grey_600
 	case theme.ColorNameHeaderBackground:
-		return Red
+		return Grey_300
 	case theme.ColorNamePressed:
 		return White
 	case theme.ColorNameOverlayBackground:
