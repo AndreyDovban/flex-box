@@ -5,6 +5,7 @@ import "image/color"
 var Red color.Color = color.RGBA{226, 17, 46, 255}
 var Green color.Color = color.RGBA{17, 226, 46, 255}
 var Hover color.Color = color.RGBA{255, 255, 255, 35}
+var Shadow color.Color = color.RGBA{0, 0, 0, 15}
 var Disabled color.Color = color.RGBA{0, 0, 0, 25}
 var Red_Dark color.Color = color.RGBA{181, 14, 37, 255}
 var Red_Active color.Color = color.RGBA{181, 14, 37, 180}

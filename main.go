@@ -43,7 +43,7 @@ func main() {
 		container.NewTabItem("Notify", block.NotifyBlock()),
 		container.NewTabItem("Context", block.ContextBlock()),
 	)
-	tab.SelectIndex(9)
+	tab.SelectIndex(3)
 
 	mainWindow.SetContent(tab)
 	colorTheme.AddListener(binding.NewDataListener(func() {

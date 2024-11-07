@@ -33,7 +33,7 @@ func TextGridBlock() *fyne.Container {
 				layout.NewGridWrapLayout(fyne.NewSize(400, 400)),
 				container.New(layout.NewCustomPaddedVBoxLayout(24),
 					textGrid,
-					container.NewThemeOverride(labelTest, &styles.Dark2{}),
+					container.NewThemeOverride(labelTest, &styles.Dark{}),
 					labelTest2,
 				),
 			),
