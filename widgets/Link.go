@@ -1,7 +1,6 @@
 package widgets
 
 import (
-	"image/color"
 	"net/url"
 
 	"fyne.io/fyne/v2"
@@ -14,11 +13,9 @@ import (
 
 type Link struct {
 	widget.BaseWidget
-	Alignment  fyne.TextAlign
-	Title      *canvas.Text
-	Url        *url.URL
-	Color      color.Color
-	HoverColor color.Color
+	Alignment fyne.TextAlign
+	Title     *canvas.Text
+	Url       *url.URL
 
 	TextSize float32
 	hovered  bool
@@ -34,12 +31,17 @@ func NewLink(text, url_string string) *Link {
 		Url:   t,
 	}
 
-	elem.ExtendBaseWidget(elem)
-
 	return elem
 }
 
 func (elem *Link) CreateRenderer() fyne.WidgetRenderer {
+	elem.ExtendBaseWidget(elem)
+
+	th := elem.Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
+
+	elem.Title.Color = h
+
 	c := container.NewWithoutLayout(elem.Title)
 
 	return widget.NewSimpleRenderer(c)
@@ -62,17 +64,17 @@ func (elem *Link) TappedSecondary(_ *fyne.PointEvent) {}
 
 func (elem *Link) MouseIn(e *desktop.MouseEvent) {
 	elem.hovered = true
-	th := elem.Theme()
-	v := fyne.CurrentApp().Settings().ThemeVariant()
-	elem.Title.Color = th.Color(theme.ColorNameHeaderBackground, v)
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHeaderBackground, 0)
+	elem.Title.Color = h
 	elem.Refresh()
 }
 
 func (elem *Link) MouseOut() {
 	elem.hovered = false
-	th := elem.Theme()
-	v := fyne.CurrentApp().Settings().ThemeVariant()
-	elem.Title.Color = th.Color(theme.ColorNameHyperlink, v)
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
+	elem.Title.Color = h
 	elem.Refresh()
 
 }
@@ -82,6 +84,13 @@ func (elem *Link) MouseMoved(e *desktop.MouseEvent) {
 	if elem.hovered != oldHovered {
 		elem.BaseWidget.Refresh()
 	}
+}
+
+func (elem *Link) Update() {
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
+	elem.Title.Color = h
+	elem.Title.Refresh()
 }
 
 func (elem *Link) SetText(text string) {

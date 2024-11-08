@@ -28,8 +28,6 @@ func NewTappedText(text string, function func()) *TappedText {
 		OnTapped: function,
 	}
 
-	elem.Refresh()
-
 	return elem
 }
 
@@ -69,15 +67,7 @@ func (elem *TappedText) MouseOut() {
 	th := fyne.CurrentApp().Settings().Theme()
 	h := th.Color(theme.ColorNameHyperlink, 0)
 	elem.Title.Color = h
-
 	elem.Refresh()
-}
-
-func (elem *TappedText) Update() {
-	th := fyne.CurrentApp().Settings().Theme()
-	h := th.Color(theme.ColorNameHyperlink, 0)
-	elem.Title.Color = h
-	elem.Title.Refresh()
 }
 
 func (elem *TappedText) MouseMoved(e *desktop.MouseEvent) {
@@ -85,6 +75,13 @@ func (elem *TappedText) MouseMoved(e *desktop.MouseEvent) {
 	if elem.hovered != oldHovered {
 		elem.BaseWidget.Refresh()
 	}
+}
+
+func (elem *TappedText) Update() {
+	th := fyne.CurrentApp().Settings().Theme()
+	h := th.Color(theme.ColorNameHyperlink, 0)
+	elem.Title.Color = h
+	elem.Title.Refresh()
 }
 
 func (elem *TappedText) SetText(text string) {

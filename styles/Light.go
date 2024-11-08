@@ -12,56 +12,56 @@ type Light struct{}
 func (l *Light) Color(c fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 
 	switch c {
-	case "darktext":
-		return Grey_600
-	case theme.ColorNameBackground:
-		return Grey_200
+
 	case theme.ColorNameForeground:
 		return Grey_800
+	case "darktext":
+		return Grey_600
+	case theme.ColorNameHyperlink:
+		return Grey_600
+	case theme.ColorNameHeaderBackground:
+		return Red
 
-	case theme.ColorNameInputBackground:
-		return White
-	case theme.ColorNameInputBorder:
-		return Grey_300
+	case theme.ColorNameBackground:
+		return Grey_200
 	case theme.ColorNameMenuBackground:
 		return Grey_100
+	case theme.ColorNameInputBackground:
+		return White
+	case theme.ColorNameOverlayBackground:
+		return Grey_100
+
+	case theme.ColorNameInputBorder:
+		return Grey_300
+	case theme.ColorNameSeparator:
+		return Grey_300
 
 	case theme.ColorNamePrimary:
 		return Red
-	case theme.ColorNameHover:
-		return Hover
-	case theme.ColorNameButton:
-		return Grey_300
-
 	case theme.ColorNameForegroundOnPrimary:
 		return White
+	case theme.ColorNameButton:
+		return Grey_300
 	case theme.ColorNameSuccess:
 		return Grey_300
 	case theme.ColorNameForegroundOnSuccess:
 		return Grey_800
 
+	case theme.ColorNameHover:
+		return Hover
 	case theme.ColorNameSelection:
 		return Grey_50
-	case theme.ColorNameScrollBar:
-		return Grey_600
-	case theme.ColorNameHeaderBackground:
-		return Red
-
 	case theme.ColorNamePressed:
 		return White
-	case theme.ColorNameOverlayBackground:
-		return Grey_100
 	case theme.ColorNameDisabled:
 		return Grey_600
-
 	case theme.ColorNameDisabledButton:
 		return Disabled
+
+	case theme.ColorNameScrollBar:
+		return Grey_600
 	case theme.ColorNameShadow:
 		return Shadow
-	case theme.ColorNameSeparator:
-		return Grey_300
-	case theme.ColorNameHyperlink:
-		return Grey_600
 
 	default:
 		return theme.DefaultTheme().Color(c, v)
