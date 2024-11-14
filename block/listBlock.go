@@ -56,7 +56,7 @@ func ListBlock() *fyne.Container {
 
 	}
 
-	list.HideSeparators = true
+	// list.HideSeparators = true
 
 	unselectBut := widget.NewButton("Unselect", func() {
 		showText.SetText("")

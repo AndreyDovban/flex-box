@@ -53,7 +53,7 @@ func main() {
 		container.NewTabItem("Context", block.ContextBlock()),
 		container.NewTabItem("Popup", block.PopupBlock(app)),
 	)
-	tab.SelectIndex(10)
+	tab.SelectIndex(6)
 
 	mainWindow.SetContent(tab)
 

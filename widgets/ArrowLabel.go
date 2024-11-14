@@ -1,12 +1,13 @@
 package widgets
 
 import (
-	"flexbox/styles"
 	"image/color"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/driver/desktop"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
@@ -21,6 +22,7 @@ type ArrowLabel struct {
 	Icon  *widget.Icon
 	Label *widget.Label
 	F     fyne.CanvasObject
+	Right fyne.CanvasObject
 
 	Selected     bool
 	SelectedIcon *widget.Icon
@@ -30,8 +32,12 @@ func NewArrowLabel(text string) *ArrowLabel {
 	elem := &ArrowLabel{
 		Label:        widget.NewLabel(text),
 		Icon:         widget.NewIcon(theme.NavigateNextIcon()),
-		F:            container.NewGridWrap(fyne.NewSize(24, 0)),
+		F:            container.NewGridWrap(fyne.NewSize(54, 38)),
 		SelectedIcon: widget.NewIcon(arrowIconRed),
+		Right: container.NewGridWrap(
+			fyne.NewSize(10, 39),
+			canvas.NewRectangle(color.Transparent),
+		),
 	}
 	elem.ExtendBaseWidget(elem)
 
@@ -46,20 +52,23 @@ func (elem *ArrowLabel) CreateRenderer() fyne.WidgetRenderer {
 
 	selIc := elem.SelectedIcon
 
+	fon := Fon(color.Transparent, color.Transparent, 8)
+
 	c := container.NewStack(
-		Fon(color.Transparent, styles.Grey_400, 8),
+		fon,
 		container.NewBorder(nil, nil,
 			container.NewStack(
 				f,
-				icon,
-				selIc,
+				container.NewGridWrap(fyne.NewSize(22, 42), layout.NewSpacer(), icon, layout.NewSpacer()),
+				container.NewGridWrap(fyne.NewSize(22, 42), layout.NewSpacer(), selIc, layout.NewSpacer()),
 			),
-			nil,
+			elem.Right,
 			elem.Label,
 		),
 	)
 	elem.Icon.Hide()
 	selIc.Hide()
+	elem.Right.Hide()
 
 	return widget.NewSimpleRenderer(c)
 }
