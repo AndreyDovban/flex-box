@@ -17,7 +17,7 @@ func main() {
 	mainWindow := app.NewWindow("Learn")
 
 	colorTheme := binding.NewBool()
-	colorTheme.Set(true)
+	colorTheme.Set(false)
 	light := &styles.Light{}
 	dark := &styles.Dark{}
 
@@ -51,8 +51,9 @@ func main() {
 		container.NewTabItem("Flex", block.FlexBlock()),
 		container.NewTabItem("Notify", block.NotifyBlock()),
 		container.NewTabItem("Context", block.ContextBlock()),
+		container.NewTabItem("Popup", block.PopupBlock(app)),
 	)
-	tab.SelectIndex(3)
+	tab.SelectIndex(10)
 
 	mainWindow.SetContent(tab)
 
