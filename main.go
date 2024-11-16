@@ -52,8 +52,9 @@ func main() {
 		container.NewTabItem("Notify", block.NotifyBlock()),
 		container.NewTabItem("Context", block.ContextBlock()),
 		container.NewTabItem("Popup", block.PopupBlock(app)),
+		container.NewTabItem("Example", block.ExampleBlock()),
 	)
-	tab.SelectIndex(6)
+	tab.SelectIndex(11)
 
 	mainWindow.SetContent(tab)
 
