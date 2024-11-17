@@ -54,7 +54,7 @@ func main() {
 		container.NewTabItem("Popup", block.PopupBlock(app)),
 		container.NewTabItem("Example", block.ExampleBlock(colorTheme)),
 	)
-	tab.SelectIndex(11)
+	tab.SelectIndex(3)
 
 	mainWindow.SetContent(tab)
 

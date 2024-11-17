@@ -125,3 +125,17 @@ func (l *Light) Size(s fyne.ThemeSizeName) float32 {
 		return theme.DefaultTheme().Size(s)
 	}
 }
+
+type Light2 struct {
+	*Light
+}
+
+func (l *Light2) Size(s fyne.ThemeSizeName) float32 {
+	switch s {
+	case theme.SizeNameInnerPadding:
+		return 0
+	case theme.SizeNameText:
+		return 12
+	}
+	return l.Light.Size(s)
+}
