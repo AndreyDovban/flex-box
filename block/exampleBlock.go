@@ -3,7 +3,6 @@ package block
 import (
 	"flexbox/styles"
 	"flexbox/widgets"
-	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -13,26 +12,17 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func ExampleBlock() *fyne.Container {
+func ExampleBlock(colorTheme binding.Bool) *fyne.Container {
+	changeThemeBut := widget.NewButton("toggle color", func() {
+		v, _ := colorTheme.Get()
+		colorTheme.Set(!v)
+
+	})
+	changeThemeBut.Importance = widget.HighImportance
 
 	left := canvas.NewRectangle(nil)
-	left.StrokeColor = styles.Grey_600
-	left.StrokeWidth = 1
 	left.CornerRadius = 8
 	left.SetMinSize(fyne.NewSize(200, 40))
-
-	elem := canvas.NewRectangle(styles.Grey_800)
-	elem.StrokeColor = styles.Grey_600
-	elem.StrokeWidth = 4
-	elem.CornerRadius = 8
-	elem.Move(fyne.NewPos(0, 500))
-	elem.Resize(fyne.NewSize(212, 30))
-
-	bas := canvas.NewRectangle(styles.Grey_800)
-	bas.Move(fyne.NewPos(203, 500))
-	bas.Resize(fyne.NewSize(12, 30))
-
-	example := container.NewWithoutLayout(elem, bas)
 
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -55,9 +45,9 @@ func ExampleBlock() *fyne.Container {
 			elem.Label.SetText(names[lii])
 
 			if targetId == lii {
-				elem.SelectedIcon.Show()
+				elem.SetSelect()
 			} else {
-				elem.SelectedIcon.Hide()
+				elem.UnSelect()
 			}
 
 		},
@@ -69,10 +59,12 @@ func ExampleBlock() *fyne.Container {
 		showText.SetText(names[id])
 
 	}
+	list.HideSeparators = true
+	list.Resize(fyne.NewSize(210, 400))
 
 	center := canvas.NewRectangle(styles.Grey_800)
 	center.StrokeColor = styles.Grey_600
-	center.StrokeWidth = 4
+	center.StrokeWidth = 1
 	center.CornerRadius = 8
 
 	content := container.New(
@@ -80,18 +72,27 @@ func ExampleBlock() *fyne.Container {
 		container.NewBorder(nil, nil,
 			container.NewStack(
 				left,
-				list,
-				example,
+				container.NewVBox(
+					changeThemeBut,
+					container.NewWithoutLayout(
+						list,
+					),
+				),
 			),
 			nil,
 			center,
 		),
 	)
 
-	fmt.Println(elem.MinSize())
-	fmt.Println(elem.Size())
-	fmt.Println(elem.Position().Y)
-	fmt.Println(elem.Position().X)
+	colorTheme.AddListener(binding.NewDataListener(func() {
+		v, _ := colorTheme.Get()
+		if v {
+			center.FillColor = styles.Grey_100
+		} else {
+			center.FillColor = styles.Grey_800
+		}
+
+	}))
 
 	return content
 }

@@ -52,7 +52,7 @@ func main() {
 		container.NewTabItem("Notify", block.NotifyBlock()),
 		container.NewTabItem("Context", block.ContextBlock()),
 		container.NewTabItem("Popup", block.PopupBlock(app)),
-		container.NewTabItem("Example", block.ExampleBlock()),
+		container.NewTabItem("Example", block.ExampleBlock(colorTheme)),
 	)
 	tab.SelectIndex(11)
 

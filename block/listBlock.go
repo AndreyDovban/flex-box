@@ -41,9 +41,9 @@ func ListBlock() *fyne.Container {
 			elem.Label.SetText(names[lii])
 
 			if targetId == lii {
-				elem.SelectedIcon.Show()
+				// elem.SelectedIcon.Show()
 			} else {
-				elem.SelectedIcon.Hide()
+				// elem.SelectedIcon.Hide()
 			}
 
 		},
