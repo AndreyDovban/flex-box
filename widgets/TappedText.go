@@ -15,17 +15,19 @@ type TappedText struct {
 	widget.BaseWidget
 	Alignment fyne.TextAlign
 	Title     *canvas.Text
+	TwoText   *canvas.Text
 	OnTapped  func() `json:"-"`
 
 	TextSize float32
 	hovered  bool
 }
 
-func NewTappedText(text string, function func()) *TappedText {
+func NewTappedText(text string, function func(), two string) *TappedText {
 
 	elem := &TappedText{
 		Title:    canvas.NewText(text, nil),
 		OnTapped: function,
+		TwoText:  canvas.NewText(two, nil),
 	}
 
 	return elem
@@ -38,8 +40,12 @@ func (elem *TappedText) CreateRenderer() fyne.WidgetRenderer {
 	h := th.Color(theme.ColorNameHyperlink, 0)
 
 	elem.Title.Color = h
+	elem.TwoText.Color = h
+	elem.TwoText.TextSize = 24
+	x := elem.MinSize().Width
+	elem.TwoText.Move(fyne.NewPos(x+20, -5))
 
-	c := container.NewWithoutLayout(elem.Title)
+	c := container.NewWithoutLayout(elem.Title, elem.TwoText)
 
 	return widget.NewSimpleRenderer(c)
 }
@@ -67,6 +73,7 @@ func (elem *TappedText) MouseOut() {
 	th := fyne.CurrentApp().Settings().Theme()
 	h := th.Color(theme.ColorNameHyperlink, 0)
 	elem.Title.Color = h
+	elem.TwoText.Color = h
 	elem.Refresh()
 }
 
@@ -81,6 +88,7 @@ func (elem *TappedText) Update() {
 	th := fyne.CurrentApp().Settings().Theme()
 	h := th.Color(theme.ColorNameHyperlink, 0)
 	elem.Title.Color = h
+	elem.TwoText.Color = h
 	elem.Title.Refresh()
 }
 

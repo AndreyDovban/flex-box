@@ -59,8 +59,8 @@ func (elem *ArrowLabel) CreateRenderer() fyne.WidgetRenderer {
 		container.NewBorder(nil, nil,
 			container.NewStack(
 				f,
-				container.NewGridWrap(fyne.NewSize(22, 42), layout.NewSpacer(), icon, layout.NewSpacer()),
-				container.NewGridWrap(fyne.NewSize(22, 42), layout.NewSpacer(), selIc, layout.NewSpacer()),
+				container.NewGridWrap(fyne.NewSize(22, 38), layout.NewSpacer(), icon, layout.NewSpacer()),
+				container.NewGridWrap(fyne.NewSize(22, 38), layout.NewSpacer(), selIc, layout.NewSpacer()),
 			),
 			elem.Right,
 			elem.Label,
@@ -96,7 +96,15 @@ func (elem *ArrowLabel) MouseOut() {
 }
 
 func (elem *ArrowLabel) SetSelect() {
-	elem.Selected = true
 	elem.SelectedIcon.Show()
+	// elem.Fon.FillColor = styles.Grey_300
+	elem.Right.Show()
+	elem.Refresh()
+}
+
+func (elem *ArrowLabel) UnSelect() {
+	elem.SelectedIcon.Hide()
+	elem.Right.Hide()
+	// elem.Fon.FillColor = color.Transparent
 	elem.Refresh()
 }

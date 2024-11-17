@@ -18,7 +18,7 @@ func CustomWidgetBlokc(colorTheme binding.Bool) *fyne.Container {
 
 	elem := widgets.NewTappedText("text", func() {
 		fmt.Println("work")
-	})
+	}, "")
 
 	elem.SetSize(32)
 	// th := fyne.CurrentApp().Settings().Theme()
