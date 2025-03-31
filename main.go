@@ -53,6 +53,7 @@ func main() {
 		container.NewTabItem("Context", block.ContextBlock()),
 		container.NewTabItem("Popup", block.PopupBlock(app)),
 		container.NewTabItem("Example", block.ExampleBlock(colorTheme)),
+		container.NewTabItem("KeyEnter", block.ExampleBlock(colorTheme)),
 	)
 	tab.SelectIndex(3)
 
