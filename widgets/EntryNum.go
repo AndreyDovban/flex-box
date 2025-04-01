@@ -32,7 +32,7 @@ func (e *numericalEntry) TypedShortcut(shortcut fyne.Shortcut) {
 	}
 
 	content := paste.Clipboard.Content()
-	if _, err := strconv.ParseFloat(content, 64); err == nil {
+	if _, err := strconv.ParseInt(content, 10, 64); err == nil {
 		e.Entry.TypedShortcut(shortcut)
 	}
 }
